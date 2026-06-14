@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harsh Upadhayay — Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#FFFCE8;--t:#0A0A0A;--m:#444;--d:#888;
+      --y:#FFE600;--r:#FF2D55;--b:#0055FF;--g:#00CC44;
+      --brd:3px solid #0A0A0A;--sh:5px 5px 0 #0A0A0A;--shh:8px 8px 0 #0A0A0A
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--t);overflow-x:hidden}
+    ::selection{background:var(--y);color:#000}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+
+    /* ── DOTS PATTERN ── */
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);
+      background-size:24px 24px;pointer-events:none;z-index:0
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:sticky;top:0;z-index:100;
+      background:var(--bg);border-bottom:var(--brd);
+      padding:0;
+    }
+    .nav-inner{
+      display:flex;align-items:stretch;height:56px;
+      border-left:var(--brd)
+    }
+    .nav-logo{
+      display:flex;align-items:center;padding:0 24px;
+      font-weight:700;font-size:17px;letter-spacing:-.02em;
+      border-right:var(--brd)
+    }
+    .nav-links{display:flex;list-style:none;margin-left:auto}
+    .nav-links a{
+      display:flex;align-items:center;padding:0 20px;
+      font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;
+      text-transform:uppercase;color:var(--m);border-left:var(--brd);
+      transition:background .15s,color .15s
+    }
+    .nav-links a:hover{background:var(--y);color:var(--t)}
+    .nav-links a.act{background:var(--t);color:var(--bg)}
+    .nav-cta{display:flex;align-items:center;padding:0 22px;border-left:var(--brd);background:var(--t);color:var(--bg);font-weight:700;font-size:12px;letter-spacing:.04em;transition:background .15s}
+    .nav-cta:hover{background:var(--y);color:var(--t)}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* ── SECTIONS ── */
+    main{position:relative;z-index:1}
+    section{border-bottom:var(--brd)}
+    .sec-num{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--d);text-transform:uppercase;margin-bottom:8px}
+    .sec-h{font-size:clamp(40px,7vw,80px);font-weight:700;letter-spacing:-.03em;line-height:.9;color:var(--t);margin-bottom:clamp(36px,5vw,56px)}
+
+    /* ── HERO ── */
+    #hero{border-top:var(--brd)}
+    .hero-inner{padding:clamp(48px,8vw,100px) 0 0;border-left:var(--brd);border-right:var(--brd)}
+    .hero-top{padding:0 clamp(24px,4vw,56px) clamp(40px,6vw,64px)}
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;
+      background:var(--g);color:#fff;padding:7px 14px;
+      border:var(--brd);box-shadow:3px 3px 0 #0A0A0A;
+      margin-bottom:32px
+    }
+    .hero-badge span{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.2s step-end infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    .hero-name{
+      font-size:clamp(60px,12vw,140px);font-weight:700;letter-spacing:-.04em;
+      line-height:.88;color:var(--t);
+    }
+    .hero-name .stroke{-webkit-text-stroke:3px var(--t);color:transparent}
+    .hero-strip{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      border-top:var(--brd);margin-top:clamp(36px,5vw,56px)
+    }
+    .hs{padding:clamp(16px,2.5vw,24px);border-right:var(--brd)}
+    .hs:last-child{border-right:none}
+    .hs-n{font-size:clamp(28px,5vw,48px);font-weight:700;line-height:1;letter-spacing:-.03em}
+    .hs-n.y{color:var(--y);-webkit-text-stroke:2px var(--t)}
+    .hs-n.r{color:var(--r);-webkit-text-stroke:2px var(--t)}
+    .hs-n.b{color:var(--b);-webkit-text-stroke:2px var(--t)}
+    .hs-n.g{color:var(--g);-webkit-text-stroke:2px var(--t)}
+    .hs-l{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--d);margin-top:6px}
+    @media(max-width:600px){.hero-strip{grid-template-columns:1fr 1fr}.hs{border-bottom:var(--brd)}.hs:nth-child(even){border-right:none}}
+
+    /* ── MARQUEE ── */
+    .mq-wrap{overflow:hidden;background:var(--t);padding:12px 0;border-bottom:var(--brd)}
+    @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .mq-inner{display:inline-flex;animation:mq 20s linear infinite;white-space:nowrap}
+    .mq-item{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--bg);padding:0 20px}
+    .mq-star{color:var(--y);padding:0 6px}
+
+    /* ── EXPERIENCE ── */
+    #experience{padding:clamp(48px,7vw,88px) 0}
+    .exp-g{display:grid;grid-template-columns:1fr;gap:14px}
+    .ecard{
+      border:var(--brd);transition:transform .18s,box-shadow .18s;
+      background:var(--bg)
+    }
+    .ecard:hover{transform:translate(-3px,-3px);box-shadow:var(--shh)}
+    .ehead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:clamp(16px,2.5vw,22px);cursor:pointer}
+    .enum{
+      font-size:clamp(28px,5vw,48px);font-weight:700;letter-spacing:-.03em;line-height:1;
+      color:var(--y);-webkit-text-stroke:2px var(--t);flex-shrink:0;width:56px
+    }
+    .etl{font-size:clamp(16px,2.5vw,20px);font-weight:700;letter-spacing:-.01em;color:var(--t);line-height:1.15}
+    .esub{font-family:'Space Mono',monospace;font-size:11px;color:var(--d);margin-top:4px;letter-spacing:.02em}
+    .etog{
+      width:36px;height:36px;border:var(--brd);display:flex;align-items:center;justify-content:center;
+      font-size:22px;font-weight:700;flex-shrink:0;transition:background .15s,transform .25s;background:transparent
+    }
+    .ecard.open .etog{background:var(--y);transform:rotate(45deg)}
+    .ebody{display:none;padding:0 clamp(16px,2.5vw,22px) clamp(16px,2.5vw,22px);border-top:var(--brd)}
+    .ecard.open .ebody{display:block;padding-top:16px}
+    .etags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .etag{
+      font-family:'Space Mono',monospace;font-size:10px;font-weight:700;
+      padding:3px 10px;border:2px solid var(--t);letter-spacing:.04em;
+      text-transform:uppercase;background:var(--bg)
+    }
+    .ebuls{list-style:none;display:flex;flex-direction:column;gap:7px}
+    .ebuls li{font-size:13px;color:var(--m);line-height:1.65;padding-left:18px;position:relative}
+    .ebuls li::before{content:'✦';position:absolute;left:0;color:var(--r);font-size:9px;top:4px}
+    .ehi{color:var(--t);font-weight:700;background:var(--y);padding:0 3px}
+
+    /* ── PROJECTS ── */
+    #projects{padding:clamp(48px,7vw,88px) 0}
+    .pg{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:var(--brd)}
+    .pcard{
+      border-right:var(--brd);border-bottom:var(--brd);
+      padding:clamp(18px,2.5vw,26px);display:flex;flex-direction:column;gap:10px;
+      position:relative;overflow:hidden;transition:background .2s,transform .18s,box-shadow .18s;
+      cursor:default;background:var(--bg)
+    }
+    .pcard:last-child:nth-child(3n+1){border-right:none}
+    .pcard:nth-child(3n){border-right:none}
+    .pcard:hover{background:var(--y);transform:translate(-2px,-2px);z-index:1;box-shadow:5px 5px 0 #0A0A0A}
+    .pcard:hover .ptag{border-color:rgba(0,0,0,.3)}
+    .pnum-c{
+      width:36px;height:36px;border:var(--brd);display:flex;align-items:center;justify-content:center;
+      font-family:'Space Mono',monospace;font-size:12px;font-weight:700;flex-shrink:0
+    }
+    .pname{font-size:17px;font-weight:700;letter-spacing:-.01em;color:var(--t)}
+    .pdesc{font-size:12px;color:var(--m);line-height:1.65;flex:1}
+    .pcard:hover .pdesc{color:rgba(0,0,0,.7)}
+    .ptags{display:flex;flex-wrap:wrap;gap:5px}
+    .ptag{font-family:'Space Mono',monospace;font-size:9px;padding:2px 8px;border:2px solid var(--t);letter-spacing:.04em;text-transform:uppercase}
+    .plnk{font-family:'Space Mono',monospace;font-size:11px;color:var(--t);font-weight:700;letter-spacing:.04em}
+    @media(max-width:768px){.pg{grid-template-columns:1fr 1fr}.pcard:nth-child(3n){border-right:var(--brd)}.pcard:nth-child(even){border-right:none}}
+    @media(max-width:480px){.pg{grid-template-columns:1fr}.pcard{border-right:none}}
+
+    /* ── STACK ── */
+    #stack{padding:clamp(48px,7vw,88px) 0}
+    .stack-g{display:grid;grid-template-columns:repeat(4,1fr);border:var(--brd)}
+    .sg{border-right:var(--brd);padding:clamp(18px,2.5vw,24px)}
+    .sg:last-child{border-right:none}
+    .sg-l{
+      font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--d);margin-bottom:14px;padding-bottom:10px;
+      border-bottom:2px solid var(--t)
+    }
+    .sg-pills{display:flex;flex-wrap:wrap;gap:6px}
+    .sp{
+      font-family:'Space Mono',monospace;font-size:10px;padding:4px 10px;
+      border:2px solid var(--t);cursor:default;transition:.15s;font-weight:700;letter-spacing:.02em;
+      text-transform:uppercase
+    }
+    .sp:hover{background:var(--y)}
+    .sp.hi{background:var(--t);color:var(--bg)}
+    @media(max-width:768px){.stack-g{grid-template-columns:1fr 1fr}.sg:nth-child(even){border-right:none}}
+    @media(max-width:480px){.stack-g{grid-template-columns:1fr}.sg{border-right:none;border-bottom:var(--brd)}}
+
+    /* ── CERTS ── */
+    #certs{padding:clamp(48px,7vw,88px) 0}
+    .certs-row{display:grid;grid-template-columns:repeat(5,1fr);border:var(--brd)}
+    .cc{
+      border-right:var(--brd);padding:clamp(14px,2vw,22px);text-decoration:none;
+      transition:background .15s,transform .15s;position:relative
+    }
+    .cc:last-child{border-right:none}
+    .cc:hover{background:var(--y);transform:translate(-2px,-2px);z-index:1;box-shadow:4px 4px 0 #0A0A0A}
+    .cc-pct{font-size:clamp(28px,5vw,48px);font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--r);-webkit-text-stroke:2px var(--t)}
+    .cc-n{font-family:'Space Mono',monospace;font-size:10px;color:var(--m);margin-top:8px;line-height:1.4;letter-spacing:.02em}
+    .cc-aws{
+      position:absolute;top:10px;right:10px;
+      font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
+      background:var(--t);color:var(--bg);padding:2px 6px;letter-spacing:.06em
+    }
+    .cc-lnk{font-family:'Space Mono',monospace;font-size:10px;color:var(--b);margin-top:10px;font-weight:700}
+    @media(max-width:768px){.certs-row{grid-template-columns:repeat(3,1fr)}.cc:nth-child(3n){border-right:none}}
+    @media(max-width:480px){.certs-row{grid-template-columns:1fr 1fr}.cc{border-right:var(--brd)}.cc:nth-child(even){border-right:none}}
+
+    /* ── CONTACT ── */
+    #contact{padding:clamp(48px,7vw,88px) 0}
+    .contact-box{
+      border:var(--brd);box-shadow:var(--sh);
+      display:grid;grid-template-columns:1fr 1fr;overflow:hidden
+    }
+    .ct-l{background:var(--t);color:var(--bg);padding:clamp(28px,4vw,52px)}
+    .ct-h{font-size:clamp(36px,6vw,72px);font-weight:700;letter-spacing:-.03em;line-height:.9;margin-bottom:20px}
+    .ct-h span{color:var(--y)}
+    .ct-p{font-size:14px;color:rgba(255,252,232,.6);line-height:1.7}
+    .ct-r{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:10px}
+    .cl{
+      display:flex;align-items:center;gap:12px;padding:14px 16px;
+      border:var(--brd);text-decoration:none;color:var(--t);
+      transition:transform .15s,box-shadow .15s,background .15s;background:var(--bg)
+    }
+    .cl:hover{transform:translate(-3px,-3px);box-shadow:var(--shh);background:var(--y)}
+    .cl-ic{
+      width:32px;height:32px;border:2px solid var(--t);background:var(--t);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0
+    }
+    .cl-ic svg{width:14px;height:14px;fill:var(--bg)}
+    .cl-main{font-weight:700;font-size:13px}
+    .cl-sub{font-family:'Space Mono',monospace;font-size:10px;color:var(--d)}
+    @media(max-width:640px){.contact-box{grid-template-columns:1fr}}
+
+    footer{
+      border-top:var(--brd);padding:18px clamp(20px,4vw,48px);
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px
+    }
+    .fc{font-family:'Space Mono',monospace;font-size:11px;color:var(--d);letter-spacing:.04em}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">HU.</div>
+    <ul class="nav-links" id="nl">
+      <li><a href="#experience">Work</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#certs">Certs</a></li>
+    </ul>
+    <a href="mailto:harshupadhayay906@gmail.com" class="nav-cta">HIRE ME →</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-badge"><span></span>Available for hire · Tokyo, Japan</div>
+      <div class="hero-name">
+        <div>HARSH</div>
+        <div class="stroke">UPAD</div>
+        <div>HAYAY</div>
+      </div>
+    </div>
+    <div class="hero-strip">
+      <div class="hs"><div class="hs-n y">5×</div><div class="hs-l">AWS Certified</div></div>
+      <div class="hs"><div class="hs-n r">95%</div><div class="hs-l">Sony Runtime Cut</div></div>
+      <div class="hs"><div class="hs-n b">$1K</div><div class="hs-l">Monthly Cloud Savings</div></div>
+      <div class="hs"><div class="hs-n g">2+</div><div class="hs-l">Years at SMS DataTech</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-inner">
+    <span class="mq-item">SOFTWARE ENGINEER</span><span class="mq-star">★</span>
+    <span class="mq-item">AWS CERTIFIED ×5</span><span class="mq-star">★</span>
+    <span class="mq-item">TOKYO, JAPAN</span><span class="mq-star">★</span>
+    <span class="mq-item">PYTHON · GO · SCRAPY</span><span class="mq-star">★</span>
+    <span class="mq-item">ECS FARGATE · CDK</span><span class="mq-star">★</span>
+    <span class="mq-item">KAFKA · RABBITMQ</span><span class="mq-star">★</span>
+    <span class="mq-item">95% RUNTIME REDUCTION</span><span class="mq-star">★</span>
+    <span class="mq-item">SOFTWARE ENGINEER</span><span class="mq-star">★</span>
+    <span class="mq-item">AWS CERTIFIED ×5</span><span class="mq-star">★</span>
+    <span class="mq-item">TOKYO, JAPAN</span><span class="mq-star">★</span>
+    <span class="mq-item">PYTHON · GO · SCRAPY</span><span class="mq-star">★</span>
+    <span class="mq-item">ECS FARGATE · CDK</span><span class="mq-star">★</span>
+    <span class="mq-item">KAFKA · RABBITMQ</span><span class="mq-star">★</span>
+    <span class="mq-item">95% RUNTIME REDUCTION</span><span class="mq-star">★</span>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-num">01 — Work</div>
+    <h2 class="sec-h">Experience</h2>
+    <div class="exp-g">
+
+      <div class="ecard" id="ec0">
+        <div class="ehead" onclick="te('ec0')">
+          <div class="enum">01</div>
+          <div style="flex:1"><div class="etl">AI Scraping Platform — Hawk AI &amp; Missuri</div><div class="esub">Lead Architect · Team of 9 · SMS DataTech · 2024–Present</div></div>
+          <div class="etog">+</div>
+        </div>
+        <div class="ebody">
+          <div class="etags"><span class="etag">AWS CDK</span><span class="etag">ECS Fargate/Spot</span><span class="etag">Lambda</span><span class="etag">EventBridge</span><span class="etag">RabbitMQ</span><span class="etag">Celery</span><span class="etag">Django</span><span class="etag">LLMs</span><span class="etag">Firecrawl</span></div>
+          <ul class="ebuls">
+            <li>Architected dual-engine AI scraping: URL extraction → crawling → ranking → <span class="ehi">LLM schema gen</span></li>
+            <li>Async orchestration: batching, auto-retries, <span class="ehi">Dead Letter Queues</span></li>
+            <li>All cloud IaC via <span class="ehi">AWS CDK</span> — ECS Fargate Spot + Lambda+EventBridge auto-scaling</li>
+            <li><span class="ehi">Mentored 4 interns</span> through PRs, architecture reviews, engineering standards</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ecard" id="ec1">
+        <div class="ehead" onclick="te('ec1')">
+          <div class="enum">02</div>
+          <div style="flex:1"><div class="etl">AWS Cloud Administration &amp; Optimisation</div><div class="esub">Primary Admin · $1,000/month saved · SMS DataTech · 2023–Present</div></div>
+          <div class="etog">+</div>
+        </div>
+        <div class="ebody">
+          <div class="etags"><span class="etag">Aurora RDS</span><span class="etag">S3 Glacier</span><span class="etag">Savings Plans</span><span class="etag">Graviton</span><span class="etag">CloudWatch</span></div>
+          <ul class="ebuls">
+            <li>Compute Savings Plans → <span class="ehi">$500/month saved</span></li>
+            <li>Migrated all new architectures to <span class="ehi">ARM-based Graviton</span></li>
+            <li>Sony Aurora: <span class="ehi">1.2 TB → 200 GB</span> (3-day non-blocking batched deletion)</li>
+            <li>Aurora cost: <span class="ehi">50% reduction = $500/month saved</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ecard" id="ec2">
+        <div class="ehead" onclick="te('ec2')">
+          <div class="enum">03</div>
+          <div style="flex:1"><div class="etl">PoGo Internal Monitoring Tool</div><div class="esub">Co-Architect · MTTD 30 min → 1 min · 20+ servers</div></div>
+          <div class="etog">+</div>
+        </div>
+        <div class="ebody">
+          <div class="etags"><span class="etag">Django</span><span class="etag">Apache Kafka</span><span class="etag">Python</span></div>
+          <ul class="ebuls">
+            <li>Async metric pipeline via <span class="ehi">Apache Kafka</span> · 20+ servers, 40+ spiders</li>
+            <li>MTTD: <span class="ehi">30 min → 1 min</span> · Monitoring time: <span class="ehi">3 hr → 5 min</span></li>
+            <li><span class="ehi">0 escaped defects</span> reported by clients</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ecard" id="ec3">
+        <div class="ehead" onclick="te('ec3')">
+          <div class="enum">04</div>
+          <div style="flex:1"><div class="etl">Enterprise Data Extraction — Sony Group</div><div class="esub">Project Owner · Legacy 2019 · 14 platforms · 95% runtime cut</div></div>
+          <div class="etog">+</div>
+        </div>
+        <div class="ebody">
+          <div class="etags"><span class="etag">Python</span><span class="etag">Scrapy</span><span class="etag">Django</span><span class="etag">Celery</span></div>
+          <ul class="ebuls">
+            <li>Full ownership of legacy 2019 infra across <span class="ehi">14 platforms</span></li>
+            <li>Rewrote <span class="ehi">6 major scrapers</span> from scratch</li>
+            <li>Achieved <span class="ehi">95% execution runtime reduction</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ecard" id="ec4">
+        <div class="ehead" onclick="te('ec4')">
+          <div class="enum">05</div>
+          <div style="flex:1"><div class="etl">Client Data Extraction — Amazon</div><div class="esub">Internship · Scrapy production pipeline · SMS DataTech · 2023</div></div>
+          <div class="etog">+</div>
+        </div>
+        <div class="ebody">
+          <ul class="ebuls">
+            <li>Daily production ops · debugged spiders · resolved client issues</li>
+            <li>Migrated pipelines after major mid-project spec change</li>
+            <li>Automated manual collection workflows</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-num">02 — Personal Work</div>
+    <h2 class="sec-h">Projects</h2>
+  </div>
+  <div class="pg" style="border-left:var(--brd);border-right:var(--brd);margin:0 clamp(20px,4vw,48px)">
+    <div class="pcard"><div class="pnum-c">01</div><div class="pname">Kiroku</div><p class="pdesc">Offline-first JLPT study app. Kana drills, Anki deck import, spaced repetition, P2P browser sync via Go backend.</p><div class="ptags"><span class="ptag">TypeScript</span><span class="ptag">Vite</span><span class="ptag">Go</span><span class="ptag">PWA</span></div><a href="https://kiroku.neovara.uk" target="_blank" class="plnk">LIVE ↗</a></div>
+    <div class="pcard"><div class="pnum-c">02</div><div class="pname">Homelab</div><p class="pdesc">12+ self-hosted services with Docker, Traefik, Authelia SSO, and Cloudflare Tunnels.</p><div class="ptags"><span class="ptag">Docker</span><span class="ptag">Traefik</span><span class="ptag">Authelia</span></div><a href="https://github.com/Harsh-Upadhayay/homelab" target="_blank" class="plnk">GITHUB ↗</a></div>
+    <div class="pcard"><div class="pnum-c">03</div><div class="pname">Rate Limiter</div><p class="pdesc">Token Bucket + Sliding Window in Go, benchmarked with k6, deployed on ECS via CDK.</p><div class="ptags"><span class="ptag">Go</span><span class="ptag">Redis</span><span class="ptag">AWS CDK</span><span class="ptag">k6</span></div><a href="https://github.com/Harsh-Upadhayay/ratelimiter" target="_blank" class="plnk">GITHUB ↗</a></div>
+    <div class="pcard"><div class="pnum-c">04</div><div class="pname">IRCTC Pro</div><p class="pdesc">Real-time Indian Railways data. Scrapy backend, React frontend, Django glue.</p><div class="ptags"><span class="ptag">Python</span><span class="ptag">Scrapy</span><span class="ptag">React</span></div><a href="https://github.com/Harsh-Upadhayay/IRCTC-Pro" target="_blank" class="plnk">GITHUB ↗</a></div>
+    <div class="pcard"><div class="pnum-c">05</div><div class="pname">CipherVault</div><p class="pdesc">Classical cipher suite (Caesar/Vigenère/Hill/Playfair) in C++ with clean OOP design.</p><div class="ptags"><span class="ptag">C++</span><span class="ptag">OOP</span><span class="ptag">Crypto</span></div><a href="https://github.com/Harsh-Upadhayay/CipherVault" target="_blank" class="plnk">GITHUB ↗</a></div>
+    <div class="pcard"><div class="pnum-c">06</div><div class="pname">Cryptopals in Go</div><p class="pdesc">Matasano crypto challenges — AES, CBC/CTR, SHA-1 length extension in Go.</p><div class="ptags"><span class="ptag">Go</span><span class="ptag">AES</span><span class="ptag">SHA-1</span></div><a href="https://github.com/Harsh-Upadhayay/cryptopals-challenge-go" target="_blank" class="plnk">GITHUB ↗</a></div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="container">
+    <div class="sec-num">03 — Tools</div>
+    <h2 class="sec-h">Stack</h2>
+    <div class="stack-g">
+      <div class="sg"><div class="sg-l">Languages</div><div class="sg-pills"><span class="sp hi">Python</span><span class="sp hi">Go</span><span class="sp">TypeScript</span><span class="sp">C++</span><span class="sp">SQL</span><span class="sp">C</span></div></div>
+      <div class="sg"><div class="sg-l">Frameworks</div><div class="sg-pills"><span class="sp hi">Scrapy</span><span class="sp">Django</span><span class="sp">FastAPI</span><span class="sp">Celery</span></div></div>
+      <div class="sg"><div class="sg-l">Data</div><div class="sg-pills"><span class="sp hi">Kafka</span><span class="sp hi">RabbitMQ</span><span class="sp">Redis</span><span class="sp">PostgreSQL</span><span class="sp">MySQL</span></div></div>
+      <div class="sg"><div class="sg-l">Cloud</div><div class="sg-pills"><span class="sp hi">AWS CDK</span><span class="sp hi">ECS Fargate</span><span class="sp">Lambda</span><span class="sp">CloudFront</span><span class="sp">Aurora</span><span class="sp">Docker</span><span class="sp">Traefik</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <div class="sec-num">04 — Credentials</div>
+    <h2 class="sec-h">AWS ×5</h2>
+    <div class="certs-row">
+      <a href="https://www.credly.com/badges/282db828-50e2-42df-967c-f4855bf0985b/public_url" target="_blank" class="cc"><div class="cc-aws">AWS PRO</div><div class="cc-pct">86%</div><div class="cc-n">DevOps Engineer Professional</div><div class="cc-lnk">CREDLY ↗</div></a>
+      <a href="https://www.credly.com/badges/20a666d9-c97c-43a5-be3d-d73376798f9f/public_url" target="_blank" class="cc"><div class="cc-aws">AWS PRO</div><div class="cc-pct">86%</div><div class="cc-n">Solutions Architect Professional</div><div class="cc-lnk">CREDLY ↗</div></a>
+      <a href="https://www.credly.com/badges/a2702ec7-96ce-4a5f-8ae4-10e52c3ad4a4/linked_in_profile" target="_blank" class="cc"><div class="cc-aws">AWS ASSOC</div><div class="cc-pct">88%</div><div class="cc-n">SysOps Administrator Associate</div><div class="cc-lnk">CREDLY ↗</div></a>
+      <a href="https://www.credly.com/badges/1008d490-3a2b-41bc-9289-d414faad167b/linked_in_profile" target="_blank" class="cc"><div class="cc-aws">AWS ASSOC</div><div class="cc-pct">90%</div><div class="cc-n">Solutions Architect Associate</div><div class="cc-lnk">CREDLY ↗</div></a>
+      <a href="https://www.credly.com/badges/d5559fc1-b9ff-4a13-b08e-73a993b8acf3/public_url" target="_blank" class="cc"><div class="cc-aws">AWS ASSOC</div><div class="cc-pct">86%</div><div class="cc-n">Developer Associate</div><div class="cc-lnk">CREDLY ↗</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="sec-num">05 — Say hello</div>
+    <h2 class="sec-h">Contact</h2>
+    <div class="contact-box">
+      <div class="ct-l">
+        <div class="ct-h">LET'S<br><span>WORK</span><br>TOGETHER</div>
+        <p class="ct-p">Software Engineer open to remote or Tokyo-based roles. Best reached by email — I'll respond fast.</p>
+      </div>
+      <div class="ct-r">
+        <a href="mailto:harshupadhayay906@gmail.com" class="cl"><div class="cl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="var(--bg)" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div><div><div class="cl-main">harshupadhayay906@gmail.com</div><div class="cl-sub">EMAIL — PREFERRED</div></div></a>
+        <a href="https://github.com/Harsh-Upadhayay" target="_blank" class="cl"><div class="cl-ic"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></div><div><div class="cl-main">Harsh-Upadhayay</div><div class="cl-sub">GITHUB</div></div></a>
+        <a href="https://www.linkedin.com/in/harsh-upadhayay-/" target="_blank" class="cl"><div class="cl-ic"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div><div><div class="cl-main">harsh-upadhayay</div><div class="cl-sub">LINKEDIN</div></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <span class="fc">© 2026 HARSH UPADHAYAY</span>
+  <span class="fc">AWS CERTIFIED ×5 · TOKYO, JAPAN</span>
+</footer>
+
+<script>
+// NAV ACTIVE
+const secs=document.querySelectorAll('section[id]');
+const nas=document.querySelectorAll('.nav-links a');
+secs.forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){nas.forEach(a=>a.classList.remove('act'));const a=document.querySelector(`.nav-links a[href="#${s.id}"]`);if(a)a.classList.add('act')}}),{rootMargin:'-40% 0 -55% 0'}).observe(s));
+// ACCORDION
+function te(id){
+  const c=document.getElementById(id);const wasOpen=c.classList.contains('open');
+  document.querySelectorAll('.ecard.open').forEach(x=>x.classList.remove('open'));
+  if(!wasOpen)c.classList.add('open');
+}
+</script>
+</body>
+</html>

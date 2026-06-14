@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh Upadhayay — SWE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0F0F;
+  --t:#DEDEDE;
+  --ts:rgba(222,222,222,.48);
+  --r:#FF2222;
+  --b:1px solid rgba(222,222,222,.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:'Space Grotesk',sans-serif;overflow-x:hidden}
+
+/* Top bar */
+.tb{position:fixed;top:0;left:0;right:0;height:52px;border-bottom:var(--b);display:flex;align-items:center;padding:0 52px;background:var(--bg);z-index:100;gap:0}
+.tb-n{font-size:14px;font-weight:700;letter-spacing:.04em}
+.tb-sp{flex:1}
+.tb-links{display:flex;gap:0}
+.tb-links a{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ts);text-decoration:none;padding:0 20px;height:52px;display:flex;align-items:center;border-left:var(--b);transition:color .2s,background .2s}
+.tb-links a:hover{color:var(--r);background:rgba(255,34,34,.05)}
+.tb-yr{font-size:11px;letter-spacing:.1em;color:var(--ts);border-left:var(--b);padding-left:20px}
+
+/* Hero */
+.hero{padding:52px 52px 0;min-height:100vh;display:flex;flex-direction:column;border-bottom:var(--b)}
+.h-top{display:flex;align-items:center;gap:0;border-bottom:var(--b);padding:20px 0}
+.h-tag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--r);padding-right:20px;border-right:var(--b)}
+.h-loc{font-size:10px;letter-spacing:.14em;color:var(--ts);padding-left:20px}
+.h-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:64px 0 48px}
+.h1{font-size:clamp(72px,12vw,160px);font-weight:700;line-height:.9;letter-spacing:-.03em;color:var(--t)}
+.h1 .out{color:transparent;-webkit-text-stroke:2px var(--t)}
+.h-desc{max-width:520px;font-size:15px;color:var(--ts);line-height:1.7;font-weight:400;margin-top:40px}
+.h-stats{display:flex;gap:0;border-top:var(--b);margin-top:auto}
+.stat{flex:1;padding:28px 32px;border-right:var(--b)}
+.stat:first-child{border-left:var(--b)}
+.stat-n{font-size:38px;font-weight:700;line-height:1;color:var(--t)}
+.stat-n sup{font-size:18px;color:var(--r);font-weight:700}
+.stat-l{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ts);margin-top:6px}
+
+/* Sections */
+.sec{padding:72px 52px;border-bottom:var(--b)}
+.sh{display:flex;align-items:center;gap:16px;margin-bottom:48px;padding-bottom:14px;border-bottom:1px solid rgba(255,34,34,.28)}
+.si{font-size:11px;letter-spacing:.12em;color:var(--r);font-weight:700}
+.st{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ts)}
+
+/* Experience table */
+.etable{width:100%}
+.eh{display:grid;grid-template-columns:52px 1fr 220px 120px;padding:10px 0;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ts);border-bottom:var(--b)}
+.erow{border-bottom:var(--b);cursor:default}
+.er-main{display:grid;grid-template-columns:52px 1fr 220px 120px;padding:22px 0;align-items:start;transition:background .25s}
+.erow:hover .er-main{background:rgba(255,34,34,.04)}
+.er-n{font-size:12px;color:var(--r);font-weight:700}
+.er-co{font-size:20px;font-weight:700;line-height:1.1}
+.er-role{font-size:12px;color:var(--ts);margin-top:4px}
+.er-period{font-size:13px;color:var(--ts)}
+.er-loc{font-size:12px;color:var(--ts)}
+.er-body{padding:0 0 20px 52px;display:none}
+.erow.open .er-body{display:block}
+.er-body p{font-size:13px;color:var(--ts);line-height:1.7;margin-bottom:10px}
+.er-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.er-tag{font-size:10px;letter-spacing:.08em;padding:4px 10px;border:1px solid rgba(222,222,222,.14);color:var(--ts)}
+.er-toggle{font-size:11px;color:var(--r);letter-spacing:.1em;cursor:pointer;padding:8px 0 0 52px;display:flex;align-items:center;gap:6px;user-select:none;transition:opacity .2s}
+.er-toggle::before{content:'[+]';font-family:monospace;font-size:13px}
+.erow.open .er-toggle::before{content:'[—]'}
+
+/* Projects */
+.plist{list-style:none}
+.pi{display:grid;grid-template-columns:52px 1fr 36px;align-items:center;padding:22px 0;border-bottom:var(--b);cursor:default;transition:background .25s,padding-left .25s;gap:24px}
+.pi:hover{background:rgba(255,34,34,.05);padding-left:10px}
+.pi:hover .pi-arr{color:var(--r);transform:rotate(-45deg)}
+.pi-n{font-size:12px;color:var(--r);font-weight:700}
+.pi-name{font-size:20px;font-weight:700;margin-bottom:5px}
+.pi-desc{font-size:13px;color:var(--ts);line-height:1.6}
+.pi-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.pi-tag{font-size:10px;border-left:2px solid var(--r);padding-left:7px;color:var(--ts);letter-spacing:.06em}
+.pi-arr{font-size:22px;color:rgba(222,222,222,.25);transition:color .25s,transform .3s;line-height:1}
+
+/* Skills */
+.sk-wrap{display:flex;flex-wrap:wrap;gap:12px}
+.sk{font-size:13px;font-weight:500;padding:9px 18px;border:1px solid rgba(222,222,222,.13);color:var(--ts);transition:border-color .2s,color .2s,background .2s;cursor:default}
+.sk:hover{border-color:var(--r);color:var(--t);background:rgba(255,34,34,.07)}
+
+/* Certs */
+.clist{list-style:none}
+.ci{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:var(--b);transition:background .25s}
+.ci:hover{background:rgba(255,34,34,.04);padding-left:8px}
+.ci-l{}
+.ci-nm{font-size:15px;font-weight:600;margin-bottom:3px}
+.ci-org{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ts)}
+.ci-sc{font-size:13px;color:var(--r);font-weight:600}
+
+/* Contact */
+.ct{padding:88px 52px;text-align:center;border-bottom:var(--b)}
+.ct-l{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--r);margin-bottom:20px}
+.ct-h{font-size:clamp(36px,6vw,80px);font-weight:700;color:var(--t);margin-bottom:36px;letter-spacing:-.02em;line-height:1}
+.ct-e{display:block;color:var(--r);text-decoration:none;font-size:18px;font-weight:600;transition:letter-spacing .35s}
+.ct-e:hover{letter-spacing:.06em}
+.ct-links{display:flex;justify-content:center;gap:0;margin-top:32px;border-top:var(--b);border-bottom:var(--b)}
+.ct-links a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ts);text-decoration:none;padding:16px 32px;border-right:var(--b);transition:color .2s,background .2s}
+.ct-links a:first-child{border-left:var(--b)}
+.ct-links a:hover{color:var(--r);background:rgba(255,34,34,.05)}
+
+footer{padding:22px 52px;display:flex;justify-content:space-between;font-size:11px;color:var(--ts);letter-spacing:.08em;border-top:var(--b)}
+
+@media(max-width:900px){
+  .tb{padding:0 20px}
+  .tb-links{display:none}
+  .hero,.sec,.ct,footer{padding-left:20px;padding-right:20px}
+  .h1{font-size:clamp(56px,16vw,120px)}
+  .eh,.er-main{grid-template-columns:40px 1fr}
+  .er-period,.er-loc{display:none}
+  .h-stats{flex-direction:column}
+  .stat{border-left:var(--b)!important;border-right:none;border-bottom:var(--b)}
+  .pi{grid-template-columns:40px 1fr}
+  .pi-arr{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="tb">
+  <div class="tb-n">HARSH UPADHAYAY</div>
+  <div class="tb-sp"></div>
+  <nav class="tb-links">
+    <a href="#exp">Experience</a>
+    <a href="#proj">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="tb-yr">&copy;2024</div>
+</div>
+
+<div class="hero">
+  <div class="h-top">
+    <div class="h-tag">Software Engineer &nbsp;/&nbsp; Backend &nbsp;/&nbsp; Cloud</div>
+    <div class="h-loc">India</div>
+  </div>
+  <div class="h-main">
+    <div class="h1">
+      SOFTWARE<br>
+      <span class="out">ENGINEER</span>
+    </div>
+    <div class="h-desc">Building distributed systems, data pipelines, and cloud-native infrastructure. 4× AWS certified. Specialised in event-driven architecture, web-scale data acquisition, and backend engineering.</div>
+  </div>
+  <div class="h-stats">
+    <div class="stat">
+      <div class="stat-n">2<sup>+</sup></div>
+      <div class="stat-l">Years experience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">4<sup>×</sup></div>
+      <div class="stat-l">AWS certified</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">5<sup>+</sup></div>
+      <div class="stat-l">Major projects</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">TB<sup>s</sup></div>
+      <div class="stat-l">Data processed</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="exp">
+  <div class="sh">
+    <div class="si">01</div>
+    <div class="st">— Experience</div>
+  </div>
+  <div class="etable">
+    <div class="eh">
+      <div>#</div>
+      <div>Company &amp; Role</div>
+      <div>Period</div>
+      <div>Location</div>
+    </div>
+    <div class="erow">
+      <div class="er-main">
+        <div class="er-n">01</div>
+        <div>
+          <div class="er-co">SMS DataTech</div>
+          <div class="er-role">Software Engineer</div>
+        </div>
+        <div class="er-period">2022 — 2024</div>
+        <div class="er-loc">India</div>
+      </div>
+      <div class="er-toggle" onclick="this.parentElement.classList.toggle('open')">Expand details</div>
+      <div class="er-body">
+        <p>Built distributed data pipelines on AWS using ECS Fargate Spot, Lambda, and EventBridge — processing terabytes of structured data with auto-scaling and cost optimisation baked in.</p>
+        <p>Designed RabbitMQ and Kafka event-driven architectures replacing monolithic batch jobs, cutting end-to-end latency by 60%. Engineered Scrapy-based crawlers with rotating proxy management for large-scale acquisition.</p>
+        <p>Delivered real-time monitoring dashboards and alerting pipelines. Mentored junior engineers and drove IaC adoption across the team.</p>
+        <div class="er-tags">
+          <span class="er-tag">Python</span><span class="er-tag">AWS CDK</span><span class="er-tag">ECS Fargate</span><span class="er-tag">Lambda</span><span class="er-tag">EventBridge</span><span class="er-tag">Kafka</span><span class="er-tag">RabbitMQ</span><span class="er-tag">Scrapy</span><span class="er-tag">Docker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec" id="proj">
+  <div class="sh">
+    <div class="si">02</div>
+    <div class="st">— Projects</div>
+  </div>
+  <ul class="plist">
+    <li class="pi">
+      <div class="pi-n">01</div>
+      <div>
+        <div class="pi-name">Distributed Data Pipeline</div>
+        <div class="pi-desc">End-to-end AWS pipeline processing millions of records daily. ECS Fargate Spot + Lambda + EventBridge with auto-scaling and Fargate Spot cost optimisation.</div>
+        <div class="pi-tags"><span class="pi-tag">AWS CDK</span><span class="pi-tag">ECS Fargate</span><span class="pi-tag">Lambda</span><span class="pi-tag">Python</span></div>
+      </div>
+      <div class="pi-arr">→</div>
+    </li>
+    <li class="pi">
+      <div class="pi-n">02</div>
+      <div>
+        <div class="pi-name">Event-Driven Messaging System</div>
+        <div class="pi-desc">RabbitMQ + Kafka architecture decoupling producers from consumers. Streaming replaced batch processing — 60% latency reduction.</div>
+        <div class="pi-tags"><span class="pi-tag">Kafka</span><span class="pi-tag">RabbitMQ</span><span class="pi-tag">Docker</span></div>
+      </div>
+      <div class="pi-arr">→</div>
+    </li>
+    <li class="pi">
+      <div class="pi-n">03</div>
+      <div>
+        <div class="pi-name">Web Intelligence Platform</div>
+        <div class="pi-desc">Distributed Scrapy crawling system with proxy rotation, headless browser support, and structured extraction at production scale.</div>
+        <div class="pi-tags"><span class="pi-tag">Scrapy</span><span class="pi-tag">Redis</span><span class="pi-tag">Playwright</span></div>
+      </div>
+      <div class="pi-arr">→</div>
+    </li>
+    <li class="pi">
+      <div class="pi-n">04</div>
+      <div>
+        <div class="pi-name">Infrastructure Monitoring Suite</div>
+        <div class="pi-desc">Real-time observability platform with custom metrics, alerting pipelines, and unified dashboards. Consolidated fragmented tooling to reduce MTTR.</div>
+        <div class="pi-tags"><span class="pi-tag">CloudWatch</span><span class="pi-tag">Grafana</span><span class="pi-tag">Python</span></div>
+      </div>
+      <div class="pi-arr">→</div>
+    </li>
+    <li class="pi">
+      <div class="pi-n">05</div>
+      <div>
+        <div class="pi-name">IaC Migration Framework</div>
+        <div class="pi-desc">Led the transition of manually provisioned AWS resources to AWS CDK. Reduced deployment time and eliminated config drift across environments.</div>
+        <div class="pi-tags"><span class="pi-tag">AWS CDK</span><span class="pi-tag">Python</span><span class="pi-tag">CloudFormation</span></div>
+      </div>
+      <div class="pi-arr">→</div>
+    </li>
+  </ul>
+</div>
+
+<div class="sec" id="skills">
+  <div class="sh">
+    <div class="si">03</div>
+    <div class="st">— Capabilities</div>
+  </div>
+  <div class="sk-wrap">
+    <span class="sk">Python</span>
+    <span class="sk">FastAPI</span>
+    <span class="sk">Django</span>
+    <span class="sk">AWS CDK</span>
+    <span class="sk">ECS Fargate</span>
+    <span class="sk">AWS Lambda</span>
+    <span class="sk">EventBridge</span>
+    <span class="sk">SQS / SNS</span>
+    <span class="sk">Apache Kafka</span>
+    <span class="sk">RabbitMQ</span>
+    <span class="sk">Scrapy</span>
+    <span class="sk">Playwright</span>
+    <span class="sk">PostgreSQL</span>
+    <span class="sk">Redis</span>
+    <span class="sk">Docker</span>
+    <span class="sk">Kubernetes</span>
+    <span class="sk">Terraform</span>
+    <span class="sk">Linux / Bash</span>
+    <span class="sk">Git / CI-CD</span>
+    <span class="sk">Go (learning)</span>
+  </div>
+</div>
+
+<div class="sec" id="certs">
+  <div class="sh">
+    <div class="si">04</div>
+    <div class="st">— Certifications</div>
+  </div>
+  <ul class="clist">
+    <li class="ci">
+      <div class="ci-l">
+        <div class="ci-nm">AWS Solutions Architect — Associate</div>
+        <div class="ci-org">Amazon Web Services</div>
+      </div>
+      <div class="ci-sc">796 / 1000</div>
+    </li>
+    <li class="ci">
+      <div class="ci-l">
+        <div class="ci-nm">AWS Developer — Associate</div>
+        <div class="ci-org">Amazon Web Services</div>
+      </div>
+      <div class="ci-sc">822 / 1000</div>
+    </li>
+    <li class="ci">
+      <div class="ci-l">
+        <div class="ci-nm">AWS Cloud Practitioner</div>
+        <div class="ci-org">Amazon Web Services</div>
+      </div>
+      <div class="ci-sc">Active</div>
+    </li>
+    <li class="ci">
+      <div class="ci-l">
+        <div class="ci-nm">Certified Developer for Apache Kafka</div>
+        <div class="ci-org">Confluent</div>
+      </div>
+      <div class="ci-sc">Active</div>
+    </li>
+  </ul>
+</div>
+
+<div class="ct" id="contact">
+  <div class="ct-l">Get in touch</div>
+  <div class="ct-h">LET'S<br>BUILD.</div>
+  <a class="ct-e" href="mailto:harshupadhayay906@gmail.com">harshupadhayay906@gmail.com</a>
+  <div class="ct-links">
+    <a href="https://github.com/neovara" target="_blank">GitHub</a>
+    <a href="https://linkedin.com/in/harshupadhayay" target="_blank">LinkedIn</a>
+  </div>
+</div>
+
+<footer>
+  <span>Harsh Upadhayay</span>
+  <span>Software Engineer &copy; 2024</span>
+</footer>
+
+</body>
+</html>

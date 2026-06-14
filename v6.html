@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>portfolio.ts — Harsh Upadhayay</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      /* One Dark Pro */
+      --bg:#282C34;--bg2:#21252B;--bg3:#1B1F27;--bg4:#2C313C;
+      --bd:rgba(255,255,255,.08);--text:#ABB2BF;--hi:#FFFFFF;
+      --pu:#C678DD;--gr:#98C379;--or:#D19A66;--cm:#5C6370;
+      --bl:#61AFEF;--ye:#E5C07B;--re:#E06C75;--cy:#56B6C2;
+      --act-tab:#282C34;--tab-bg:#21252B;
+    }
+    html{height:100%}
+    body{font-family:'JetBrains Mono',monospace;background:var(--bg3);color:var(--text);height:100%;display:flex;flex-direction:column;overflow:hidden}
+    a{text-decoration:none;color:inherit}
+    ::selection{background:rgba(97,175,239,.35);color:var(--hi)}
+
+    /* ── WINDOW CHROME (top title bar) ── */
+    .chrome{
+      background:var(--bg3);border-bottom:1px solid var(--bg3);
+      height:40px;display:flex;align-items:center;
+      padding:0 16px;gap:8px;flex-shrink:0;
+      -webkit-user-select:none;user-select:none
+    }
+    .traffic{display:flex;gap:7px}
+    .tl{width:12px;height:12px;border-radius:50%}
+    .tl.r{background:#FF5F57}.tl.y{background:#FFBD2E}.tl.g{background:#28C840}
+    .chrome-title{margin-left:auto;margin-right:auto;font-size:12px;color:var(--cm);letter-spacing:.02em}
+
+    /* ── ACTIVITY BAR ── */
+    .editor-wrap{display:flex;flex:1;overflow:hidden}
+    .activity{width:48px;background:var(--bg3);border-right:1px solid rgba(0,0,0,.2);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:4px;flex-shrink:0}
+    .act-ico{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--cm);cursor:pointer;transition:.15s;font-size:16px;position:relative}
+    .act-ico:hover{color:var(--text)}
+    .act-ico.active{color:var(--hi)}
+    .act-ico.active::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%);width:2px;height:24px;background:var(--bl);border-radius:0 2px 2px 0}
+
+    /* ── SIDEBAR ── */
+    .sidebar{width:220px;background:var(--bg2);border-right:1px solid rgba(0,0,0,.2);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+    .sb-header{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cm);padding:16px 14px 8px;flex-shrink:0}
+    .sb-tree{flex:1;overflow-y:auto;padding-bottom:16px}
+    .sb-tree::-webkit-scrollbar{width:4px}.sb-tree::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1)}
+    .sbt-folder{font-size:11px;color:var(--cm);padding:3px 14px 3px 8px;display:flex;align-items:center;gap:6px;cursor:default;user-select:none}
+    .sbt-folder-ico{font-size:10px}
+    .sbt-file{font-size:12px;color:var(--text);padding:4px 14px 4px 28px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;border-radius:0;position:relative}
+    .sbt-file:hover{background:rgba(255,255,255,.04);color:var(--hi)}
+    .sbt-file.active{background:rgba(255,255,255,.07);color:var(--hi)}
+    .sbt-file.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--bl)}
+    .sbt-icon{font-size:11px;flex-shrink:0}
+    @media(max-width:768px){.sidebar{display:none}}
+
+    /* ── EDITOR AREA ── */
+    .editor-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+    /* TABS */
+    .tabs{background:var(--tab-bg);display:flex;align-items:flex-end;overflow-x:auto;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,.3)}
+    .tabs::-webkit-scrollbar{height:3px}.tabs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1)}
+    .tab{
+      display:flex;align-items:center;gap:8px;padding:8px 16px;
+      font-size:12px;color:var(--cm);cursor:pointer;
+      border-right:1px solid rgba(0,0,0,.2);white-space:nowrap;
+      transition:color .15s,background .15s;flex-shrink:0
+    }
+    .tab:hover{color:var(--text)}
+    .tab.active{background:var(--act-tab);color:var(--hi);border-top:1px solid var(--bl);padding-top:7px}
+    .tab-close{font-size:13px;color:var(--cm);opacity:0;transition:.15s;line-height:1;margin-left:2px}
+    .tab:hover .tab-close,.tab.active .tab-close{opacity:.7}
+    .tab-close:hover{opacity:1!important;color:var(--hi)}
+
+    /* BREADCRUMB */
+    .breadcrumb{padding:6px 16px;font-size:11px;color:var(--cm);background:var(--bg);border-bottom:1px solid rgba(0,0,0,.15);flex-shrink:0;display:flex;align-items:center;gap:6px}
+    .bc-sep{color:rgba(255,255,255,.2)}
+
+    /* CODE AREA */
+    .code-wrap{flex:1;overflow-y:auto;display:flex;background:var(--bg)}
+    .code-wrap::-webkit-scrollbar{width:8px}.code-wrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+    .line-nums{padding:16px 0;text-align:right;min-width:52px;font-size:13px;line-height:1.75;color:var(--cm);background:var(--bg);padding-left:8px;padding-right:16px;user-select:none;flex-shrink:0;border-right:1px solid rgba(255,255,255,.05)}
+    .code-content{flex:1;padding:16px 0 80px 20px;font-size:13px;line-height:1.75;white-space:pre-wrap;word-break:break-word;outline:none}
+    /* Current section highlight */
+    .code-section{padding:2px 0;border-radius:2px}
+    .code-section.focused{background:rgba(255,255,255,.025)}
+
+    /* SYNTAX */
+    .kw{color:var(--pu)}      /* keywords: const, type, interface, import */
+    .str{color:var(--gr)}     /* strings */
+    .num{color:var(--or)}     /* numbers */
+    .cm2{color:var(--cm);font-style:italic}    /* comments */
+    .fn{color:var(--bl)}      /* function names, identifiers */
+    .tp{color:var(--ye)}      /* types */
+    .re2{color:var(--re)}     /* object keys */
+    .cy2{color:var(--cy)}     /* special values */
+    .hl-num{color:var(--or);font-weight:700}
+    .hl-str{color:var(--gr);font-weight:500}
+    .hl-hi{color:var(--hi);font-weight:500}
+
+    /* SECTION DIVIDERS */
+    .section-banner{
+      background:var(--bg4);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);
+      padding:12px 20px;margin:0 0 0 0;display:flex;align-items:center;gap:12px;cursor:pointer
+    }
+    .section-banner .cm2{font-size:11px}
+    .section-banner-id{font-size:10px;font-weight:700;color:var(--bl);letter-spacing:.1em;text-transform:uppercase;background:rgba(97,175,239,.1);padding:2px 8px;border-radius:3px}
+
+    /* STATUS BAR */
+    .statusbar{
+      background:var(--bl);color:#1B1F27;
+      height:24px;display:flex;align-items:center;
+      padding:0 12px;gap:16px;font-size:11px;font-weight:700;
+      flex-shrink:0;user-select:none
+    }
+    .sb-r{margin-left:auto;display:flex;gap:16px}
+
+    /* MINIMAP (decorative) */
+    .minimap{width:80px;background:rgba(0,0,0,.2);flex-shrink:0;overflow:hidden;display:none}
+    @media(min-width:1100px){.minimap{display:block}}
+    .mm-content{padding:4px;opacity:.4}
+    .mm-line{height:2px;border-radius:1px;margin:1px 0;background:rgba(255,255,255,.15)}
+    .mm-line.pu{background:rgba(198,120,221,.4)}
+    .mm-line.gr{background:rgba(152,195,121,.4)}
+    .mm-line.bl{background:rgba(97,175,239,.4)}
+
+    /* MOBILE NAV */
+    .mobile-nav{display:none;background:var(--bg2);border-bottom:1px solid rgba(0,0,0,.3);overflow-x:auto;padding:8px 12px;gap:8px}
+    .mobile-nav::-webkit-scrollbar{display:none}
+    .mn-btn{font-size:11px;padding:4px 10px;border:1px solid rgba(255,255,255,.1);color:var(--cm);cursor:pointer;border-radius:3px;white-space:nowrap;background:transparent;font-family:'JetBrains Mono',monospace}
+    .mn-btn:hover,.mn-btn.active{background:var(--bg4);color:var(--hi);border-color:var(--bl)}
+    @media(max-width:768px){.mobile-nav{display:flex}}
+  </style>
+</head>
+<body>
+
+<!-- WINDOW CHROME -->
+<div class="chrome">
+  <div class="traffic"><div class="tl r"></div><div class="tl y"></div><div class="tl g"></div></div>
+  <div class="chrome-title">portfolio.ts — Harsh Upadhayay · VS Code</div>
+</div>
+
+<div class="editor-wrap">
+
+<!-- ACTIVITY BAR -->
+<div class="activity">
+  <div class="act-ico active" title="Explorer">📁</div>
+  <div class="act-ico" title="Search">🔍</div>
+  <div class="act-ico" title="Git" style="margin-top:auto">⎇</div>
+  <div class="act-ico" title="Extensions">⊞</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-header">Explorer</div>
+  <div class="sb-tree">
+    <div class="sbt-folder"><span class="sbt-folder-ico">▾</span> PORTFOLIO</div>
+    <div class="sbt-file active" onclick="scrollTo('sec-about')"><span class="sbt-icon">📄</span>about.ts</div>
+    <div class="sbt-file" onclick="scrollTo('sec-exp')"><span class="sbt-icon">📄</span>experience.ts</div>
+    <div class="sbt-folder" style="padding-left:18px"><span class="sbt-folder-ico">▾</span> projects/</div>
+    <div class="sbt-file" style="padding-left:42px" onclick="scrollTo('sec-proj')"><span class="sbt-icon">📄</span>index.ts</div>
+    <div class="sbt-file" onclick="scrollTo('sec-stack')"><span class="sbt-icon">📄</span>skills.ts</div>
+    <div class="sbt-file" onclick="scrollTo('sec-certs')"><span class="sbt-icon">📄</span>certifications.ts</div>
+    <div class="sbt-file" onclick="scrollTo('sec-contact')"><span class="sbt-icon">📄</span>contact.ts</div>
+  </div>
+</div>
+
+<!-- MAIN EDITOR -->
+<div class="editor-main">
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav">
+    <button class="mn-btn active" onclick="scrollTo('sec-about')">about.ts</button>
+    <button class="mn-btn" onclick="scrollTo('sec-exp')">experience.ts</button>
+    <button class="mn-btn" onclick="scrollTo('sec-proj')">projects/</button>
+    <button class="mn-btn" onclick="scrollTo('sec-stack')">skills.ts</button>
+    <button class="mn-btn" onclick="scrollTo('sec-certs')">certifications.ts</button>
+    <button class="mn-btn" onclick="scrollTo('sec-contact')">contact.ts</button>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="scrollTo('sec-about')"><span>📄</span> portfolio.ts <span class="tab-close">×</span></div>
+    <div class="tab" onclick="scrollTo('sec-exp')"><span>📄</span> experience.ts <span class="tab-close">×</span></div>
+    <div class="tab" onclick="scrollTo('sec-proj')"><span>📄</span> projects/ <span class="tab-close">×</span></div>
+    <div class="tab" onclick="scrollTo('sec-contact')"><span>📄</span> contact.ts <span class="tab-close">×</span></div>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <span>PORTFOLIO</span><span class="bc-sep">›</span><span style="color:var(--hi)">portfolio.ts</span>
+  </div>
+
+  <!-- CODE AREA -->
+  <div class="code-wrap" id="code-wrap">
+    <div class="line-nums" id="lnums"></div>
+    <div class="code-content" id="code">
+<span id="sec-about"><span class="cm2">// ═══════════════════════════════════════════════════════════════
+// portfolio.ts  ·  Harsh Upadhayay  ·  2026
+// ═══════════════════════════════════════════════════════════════</span>
+
+<span class="kw">import</span> <span class="tp">type</span> { <span class="tp">Developer</span>, <span class="tp">Experience</span>, <span class="tp">Project</span> } <span class="kw">from</span> <span class="str">"@types/harsh"</span>
+
+<span class="cm2">// ─────────────────────────────────────────────────────────────
+// § ABOUT
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">me</span>: <span class="tp">Developer</span> = {
+  <span class="re2">name</span>:     <span class="str">"Harsh Upadhayay"</span>,
+  <span class="re2">role</span>:     <span class="str">"Software Engineer"</span>,
+  <span class="re2">employer</span>: <span class="str">"SMS DataTech"</span>,
+  <span class="re2">location</span>: <span class="str">"Tokyo, Japan"</span>,            <span class="cm2">// UTC+9 (JST)</span>
+  <span class="re2">status</span>:   <span class="str">"open_to_work"</span>,           <span class="cm2">// ← actively looking</span>
+
+  <span class="re2">education</span>: {
+    <span class="re2">degree</span>:     <span class="str">"B.Tech Computer Science"</span>,
+    <span class="re2">university</span>: <span class="str">"IIIT Nagpur"</span>,
+    <span class="re2">cgpa</span>:       <span class="num">8.5</span>,
+    <span class="re2">boards</span>:     { <span class="re2">class12</span>: <span class="str">"94.4%"</span>, <span class="re2">class10</span>: <span class="str">"10 CGPA"</span> },
+  },
+
+  <span class="re2">links</span>: {
+    <span class="re2">github</span>:   <span class="str">"github.com/Harsh-Upadhayay"</span>,
+    <span class="re2">linkedin</span>: <span class="str">"linkedin.com/in/harsh-upadhayay"</span>,
+    <span class="re2">email</span>:    <span class="str">"harshupadhayay906@gmail.com"</span>,
+  },
+
+  <span class="re2">competitive</span>: {
+    <span class="re2">platform</span>:        <span class="str">"Codeforces"</span>,
+    <span class="re2">handle</span>:          <span class="str">"_harsh_upadhayay_"</span>,
+    <span class="re2">rating</span>:          <span class="num">1415</span>,          <span class="cm2">// Specialist</span>
+    <span class="re2">problems_solved</span>: <span class="str">"1000+"</span>,
+  },
+}
+
+
+</span><span id="sec-exp"><span class="cm2">// ─────────────────────────────────────────────────────────────
+// § EXPERIENCE
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">experience</span>: <span class="tp">Experience</span>[] = [
+
+  {
+    <span class="re2">id</span>:       <span class="str">"hawk-ai-missuri"</span>,
+    <span class="re2">company</span>:  <span class="str">"SMS DataTech"</span>,
+    <span class="re2">role</span>:     <span class="str">"Lead Architect"</span>,
+    <span class="re2">project</span>:  <span class="str">"AI Scraping Platform — Hawk AI &amp; Missuri"</span>,
+    <span class="re2">period</span>:   <span class="str">"2024 – Present"</span>,
+    <span class="re2">team</span>:     <span class="num">9</span>,               <span class="cm2">// 3 FTEs + 4 interns + 1 PM</span>
+
+    <span class="re2">tech</span>: [
+      <span class="str">"AWS CDK"</span>, <span class="str">"ECS Fargate/Spot"</span>, <span class="str">"Lambda"</span>, <span class="str">"EventBridge"</span>,
+      <span class="str">"RabbitMQ"</span>, <span class="str">"Celery"</span>, <span class="str">"Django"</span>, <span class="str">"Redis"</span>, <span class="str">"LLMs"</span>, <span class="str">"Firecrawl"</span>,
+    ],
+
+    <span class="re2">highlights</span>: [
+      <span class="str">"URL extraction → crawling → semantic ranking → LLM-driven schema gen"</span>,
+      <span class="str">"Dead Letter Queues + state-driven async orchestration"</span>,
+      <span class="str">"Entire cloud IaC via AWS CDK — ECS Fargate Spot"</span>,
+      <span class="str">"Lambda + EventBridge custom auto-scaling"</span>,
+      <span class="str">"Secrets Manager + VPC isolation + encrypted S3"</span>,
+      <span class="str">"Mentored 4 interns through PRs and architecture reviews"</span>,
+    ],
+  },
+
+  {
+    <span class="re2">id</span>:       <span class="str">"aws-administration"</span>,
+    <span class="re2">role</span>:     <span class="str">"Primary AWS Administrator (1 of 2)"</span>,
+    <span class="re2">project</span>:  <span class="str">"Cloud Administration &amp; Optimisation"</span>,
+    <span class="re2">period</span>:   <span class="str">"2023 – Present"</span>,
+
+    <span class="re2">metrics</span>: {
+      <span class="re2">monthly_savings</span>:     <span class="str">"$1,000"</span>,      <span class="cm2">// 🎯 sustained</span>
+      <span class="re2">savings_plans</span>:       <span class="str">"$500/month"</span>,
+      <span class="re2">aurora_savings</span>:      <span class="str">"$500/month (50% reduction)"</span>,
+      <span class="re2">table_shrunk</span>:        <span class="str">"1.2 TB → 200 GB"</span>,  <span class="cm2">// Sony Aurora</span>
+      <span class="re2">deletion_method</span>:     <span class="str">"3-day non-blocking batched"</span>,
+      <span class="re2">archive_storage</span>:     <span class="str">"S3 Glacier Deep Archive"</span>,
+      <span class="re2">new_compute_arch</span>:    <span class="str">"ARM Graviton"</span>,   <span class="cm2">// all new infra</span>
+    },
+  },
+
+  {
+    <span class="re2">id</span>:      <span class="str">"pogo-monitoring"</span>,
+    <span class="re2">role</span>:    <span class="str">"Co-Architect"</span>,
+    <span class="re2">project</span>: <span class="str">"PoGo Internal Monitoring Tool"</span>,
+
+    <span class="re2">scale</span>: {
+      <span class="re2">servers</span>: <span class="num">20</span>,
+      <span class="re2">spiders</span>: <span class="num">40</span>,  <span class="cm2">// concurrent</span>
+    },
+
+    <span class="re2">improvements</span>: {
+      <span class="re2">mttd_before</span>:        <span class="str">"30 min"</span>,
+      <span class="re2">mttd_after</span>:         <span class="str">"1 min"</span>,    <span class="cm2">// 30× improvement</span>
+      <span class="re2">escaped_defects</span>:    <span class="num">0</span>,          <span class="cm2">// client-reported</span>
+      <span class="re2">etl_verify_before</span>:  <span class="str">"30 min"</span>,
+      <span class="re2">etl_verify_after</span>:   <span class="str">"1 min"</span>,
+      <span class="re2">monitoring_before</span>:  <span class="str">"3 hours"</span>,
+      <span class="re2">monitoring_after</span>:   <span class="str">"5 min"</span>,
+      <span class="re2">cross_team_before</span>:  <span class="str">"2 hours"</span>,
+      <span class="re2">cross_team_after</span>:   <span class="str">"10 min"</span>,
+    },
+
+    <span class="re2">tech</span>: [<span class="str">"Apache Kafka"</span>, <span class="str">"Django"</span>, <span class="str">"Python"</span>, <span class="str">"Relational DBs"</span>],
+  },
+
+  {
+    <span class="re2">id</span>:                  <span class="str">"sony-extraction"</span>,
+    <span class="re2">client</span>:              <span class="str">"Sony Group"</span>,
+    <span class="re2">role</span>:                <span class="str">"Project Owner"</span>,
+    <span class="re2">platforms</span>:           <span class="num">14</span>,
+    <span class="re2">legacy_from</span>:         <span class="num">2019</span>,
+    <span class="re2">scrapers_rewritten</span>:  <span class="num">6</span>,
+    <span class="re2">runtime_reduction</span>:   <span class="str">"95%"</span>,  <span class="cm2">// 🚀</span>
+    <span class="re2">tech</span>: [<span class="str">"Python"</span>, <span class="str">"Scrapy"</span>, <span class="str">"Django"</span>, <span class="str">"Celery"</span>, <span class="str">"Amazon S3"</span>],
+  },
+
+  {
+    <span class="re2">id</span>:     <span class="str">"amazon-extraction"</span>,
+    <span class="re2">client</span>: <span class="str">"Amazon"</span>,
+    <span class="re2">role</span>:   <span class="str">"Intern → Production Pipeline"</span>,
+    <span class="re2">tech</span>:   [<span class="str">"Python"</span>, <span class="str">"Scrapy"</span>],
+    <span class="re2">notes</span>:  <span class="str">"Daily ops · mid-project spec migration · new spiders from scratch"</span>,
+  },
+
+]
+
+
+</span><span id="sec-proj"><span class="cm2">// ─────────────────────────────────────────────────────────────
+// § PROJECTS
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">projects</span>: <span class="tp">Project</span>[] = [
+
+  {
+    <span class="re2">name</span>:  <span class="str">"Kiroku"</span>,
+    <span class="re2">desc</span>:  <span class="str">"Offline-first JLPT study platform — kana drills, Anki decks, spaced repetition"</span>,
+    <span class="re2">tech</span>:  [<span class="str">"TypeScript"</span>, <span class="str">"Vite"</span>, <span class="str">"Go"</span>, <span class="str">"PWA"</span>],
+    <span class="re2">live</span>:  <span class="str">"<a href="https://kiroku.neovara.uk" target="_blank" style="color:var(--cy);text-decoration:underline">kiroku.neovara.uk</a>"</span>,
+    <span class="re2">repo</span>:  <span class="str">"<a href="https://github.com/Harsh-Upadhayay/kiroku" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/kiroku</a>"</span>,
+  },
+
+  {
+    <span class="re2">name</span>: <span class="str">"Homelab"</span>,
+    <span class="re2">desc</span>: <span class="str">"12+ self-hosted services: Nextcloud, Immich, Jellyfin, Ollama, Jenkins"</span>,
+    <span class="re2">tech</span>: [<span class="str">"Docker"</span>, <span class="str">"Traefik"</span>, <span class="str">"Authelia"</span>, <span class="str">"Cloudflare"</span>],
+    <span class="re2">repo</span>: <span class="str">"<a href="https://github.com/Harsh-Upadhayay/homelab" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/homelab</a>"</span>,
+  },
+
+  {
+    <span class="re2">name</span>: <span class="str">"ratelimiter"</span>,
+    <span class="re2">desc</span>: <span class="str">"Token Bucket + Sliding Window — k6 benchmarked, ECS deployed via CDK"</span>,
+    <span class="re2">tech</span>: [<span class="str">"Go"</span>, <span class="str">"Redis"</span>, <span class="str">"AWS CDK"</span>, <span class="str">"k6"</span>],
+    <span class="re2">repo</span>: <span class="str">"<a href="https://github.com/Harsh-Upadhayay/ratelimiter" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/ratelimiter</a>"</span>,
+  },
+
+  {
+    <span class="re2">name</span>: <span class="str">"IRCTC-Pro"</span>,
+    <span class="re2">desc</span>: <span class="str">"Indian Railways real-time data — Scrapy backend, React frontend"</span>,
+    <span class="re2">tech</span>: [<span class="str">"Python"</span>, <span class="str">"Scrapy"</span>, <span class="str">"React"</span>, <span class="str">"Django"</span>],
+    <span class="re2">repo</span>: <span class="str">"<a href="https://github.com/Harsh-Upadhayay/IRCTC-Pro" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/IRCTC-Pro</a>"</span>,
+  },
+
+  {
+    <span class="re2">name</span>: <span class="str">"CipherVault"</span>,
+    <span class="re2">desc</span>: <span class="str">"Classical ciphers (Caesar/Vigenère/Hill/Playfair) in C++ OOP"</span>,
+    <span class="re2">tech</span>: [<span class="str">"C++"</span>, <span class="str">"OOP"</span>, <span class="str">"Cryptography"</span>],
+    <span class="re2">repo</span>: <span class="str">"<a href="https://github.com/Harsh-Upadhayay/CipherVault" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/CipherVault</a>"</span>,
+  },
+
+  {
+    <span class="re2">name</span>: <span class="str">"cryptopals-challenge-go"</span>,
+    <span class="re2">desc</span>: <span class="str">"Matasano crypto challenges: AES/CBC/CTR, SHA-1 length extension"</span>,
+    <span class="re2">tech</span>: [<span class="str">"Go"</span>, <span class="str">"AES"</span>, <span class="str">"SHA-1"</span>],
+    <span class="re2">repo</span>: <span class="str">"<a href="https://github.com/Harsh-Upadhayay/cryptopals-challenge-go" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay/cryptopals-challenge-go</a>"</span>,
+  },
+
+]
+
+
+</span><span id="sec-stack"><span class="cm2">// ─────────────────────────────────────────────────────────────
+// § SKILLS
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">skills</span> = {
+
+  <span class="re2">languages</span>: [
+    <span class="str">"Python"</span>,       <span class="cm2">// primary · 95%</span>
+    <span class="str">"Go"</span>,            <span class="cm2">// production services</span>
+    <span class="str">"TypeScript"</span>,    <span class="cm2">// frontend + tooling</span>
+    <span class="str">"C++"</span>,           <span class="cm2">// algorithms + crypto</span>
+    <span class="str">"SQL"</span>,           <span class="cm2">// PostgreSQL + MySQL</span>
+    <span class="str">"C"</span>,
+  ],
+
+  <span class="re2">frameworks</span>: [
+    <span class="str">"Scrapy"</span>,    <span class="cm2">// production scraping · 92%</span>
+    <span class="str">"Django"</span>,
+    <span class="str">"FastAPI"</span>,
+    <span class="str">"Celery"</span>,
+  ],
+
+  <span class="re2">messaging</span>: [
+    <span class="str">"Apache Kafka"</span>,  <span class="cm2">// async pipeline</span>
+    <span class="str">"RabbitMQ"</span>,      <span class="cm2">// task queue</span>
+    <span class="str">"Redis"</span>,         <span class="cm2">// cache + pub-sub</span>
+  ],
+
+  <span class="re2">cloud</span>: [
+    <span class="str">"AWS CDK"</span>,      <span class="cm2">// IaC — primary</span>
+    <span class="str">"ECS Fargate"</span>,  <span class="cm2">// containerised workloads</span>
+    <span class="str">"Lambda"</span>,       <span class="cm2">// auto-scaling + events</span>
+    <span class="str">"EventBridge"</span>,
+    <span class="str">"CloudFront"</span>,
+    <span class="str">"Aurora RDS"</span>,
+    <span class="str">"S3"</span>,
+  ],
+
+  <span class="re2">devops</span>: [
+    <span class="str">"Docker"</span>,    <span class="cm2">// compose + swarm</span>
+    <span class="str">"Traefik"</span>,   <span class="cm2">// reverse proxy + TLS</span>
+    <span class="str">"Linux"</span>,
+    <span class="str">"Git"</span>,
+  ],
+
+}
+
+
+</span><span id="sec-certs"><span class="cm2">// ─────────────────────────────────────────────────────────────
+// § CERTIFICATIONS
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">certifications</span> = [
+
+  <span class="cm2">// ── Professional Tier ──────────────────────────────────────</span>
+  {
+    <span class="re2">exam</span>:   <span class="str">"AWS DevOps Engineer Professional"</span>,
+    <span class="re2">score</span>:  <span class="num">86</span>,                <span class="cm2">// %</span>
+    <span class="re2">tier</span>:   <span class="str">"professional"</span>,
+    <span class="re2">badge</span>:  <span class="str">"<a href="https://www.credly.com/badges/282db828-50e2-42df-967c-f4855bf0985b/public_url" target="_blank" style="color:var(--cy);text-decoration:underline">credly.com/badges/282db828</a>"</span>,
+  },
+  {
+    <span class="re2">exam</span>:   <span class="str">"AWS Solutions Architect Professional"</span>,
+    <span class="re2">score</span>:  <span class="num">86</span>,
+    <span class="re2">tier</span>:   <span class="str">"professional"</span>,
+    <span class="re2">badge</span>:  <span class="str">"<a href="https://www.credly.com/badges/20a666d9-c97c-43a5-be3d-d73376798f9f/public_url" target="_blank" style="color:var(--cy);text-decoration:underline">credly.com/badges/20a666d9</a>"</span>,
+  },
+
+  <span class="cm2">// ── Associate Tier ─────────────────────────────────────────</span>
+  {
+    <span class="re2">exam</span>:   <span class="str">"AWS SysOps Administrator Associate"</span>,
+    <span class="re2">score</span>:  <span class="num">88</span>,
+    <span class="re2">tier</span>:   <span class="str">"associate"</span>,
+    <span class="re2">badge</span>:  <span class="str">"<a href="https://www.credly.com/badges/a2702ec7-96ce-4a5f-8ae4-10e52c3ad4a4/linked_in_profile" target="_blank" style="color:var(--cy);text-decoration:underline">credly.com/badges/a2702ec7</a>"</span>,
+  },
+  {
+    <span class="re2">exam</span>:   <span class="str">"AWS Solutions Architect Associate"</span>,
+    <span class="re2">score</span>:  <span class="num">90</span>,           <span class="cm2">// highest score</span>
+    <span class="re2">tier</span>:   <span class="str">"associate"</span>,
+    <span class="re2">badge</span>:  <span class="str">"<a href="https://www.credly.com/badges/1008d490-3a2b-41bc-9289-d414faad167b/linked_in_profile" target="_blank" style="color:var(--cy);text-decoration:underline">credly.com/badges/1008d490</a>"</span>,
+  },
+  {
+    <span class="re2">exam</span>:   <span class="str">"AWS Developer Associate"</span>,
+    <span class="re2">score</span>:  <span class="num">86</span>,
+    <span class="re2">tier</span>:   <span class="str">"associate"</span>,
+    <span class="re2">badge</span>:  <span class="str">"<a href="https://www.credly.com/badges/d5559fc1-b9ff-4a13-b08e-73a993b8acf3/public_url" target="_blank" style="color:var(--cy);text-decoration:underline">credly.com/badges/d5559fc1</a>"</span>,
+  },
+
+]
+
+
+</span><span id="sec-contact"><span class="cm2">// ─────────────────────────────────────────────────────────────
+// § CONTACT
+// ─────────────────────────────────────────────────────────────</span>
+
+<span class="kw">const</span> <span class="fn">contact</span> = {
+  <span class="re2">email</span>:    <span class="str">"<a href="mailto:harshupadhayay906@gmail.com" style="color:var(--gr);text-decoration:underline">harshupadhayay906@gmail.com</a>"</span>,  <span class="cm2">// preferred</span>
+  <span class="re2">github</span>:   <span class="str">"<a href="https://github.com/Harsh-Upadhayay" target="_blank" style="color:var(--cy);text-decoration:underline">github.com/Harsh-Upadhayay</a>"</span>,
+  <span class="re2">linkedin</span>: <span class="str">"<a href="https://www.linkedin.com/in/harsh-upadhayay-/" target="_blank" style="color:var(--cy);text-decoration:underline">linkedin.com/in/harsh-upadhayay</a>"</span>,
+  <span class="re2">location</span>: <span class="str">"Tokyo, Japan"</span>,  <span class="cm2">// UTC+9</span>
+  <span class="re2">open_to</span>:  [<span class="str">"remote"</span>, <span class="str">"Tokyo-based"</span>, <span class="str">"senior engineering roles"</span>],
+}
+
+<span class="kw">export default</span> { <span class="fn">me</span>, <span class="fn">experience</span>, <span class="fn">projects</span>, <span class="fn">skills</span>, <span class="fn">certifications</span>, <span class="fn">contact</span> }
+
+<span class="cm2">// EOF — © 2026 Harsh Upadhayay</span></span>
+    </div>
+    <div class="minimap"><div class="mm-content" id="mmcontent"></div></div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <span>⎇ main</span>
+    <span>TypeScript</span>
+    <div class="sb-r">
+      <span>UTF-8</span>
+      <span>Ln <span id="cur-line">1</span></span>
+      <span>Harsh Upadhayay · Tokyo</span>
+    </div>
+  </div>
+
+</div><!-- /editor-main -->
+</div><!-- /editor-wrap -->
+
+<script>
+// Generate line numbers
+const codeEl=document.getElementById('code');
+const lnumsEl=document.getElementById('lnums');
+const lineCount=codeEl.innerText.split('\n').length+5;
+lnumsEl.innerHTML=Array.from({length:lineCount},(_,i)=>`<div>${i+1}</div>`).join('');
+
+// Scroll to section
+function scrollTo(id){
+  const el=document.getElementById(id);
+  const wrap=document.getElementById('code-wrap');
+  if(!el||!wrap)return;
+  wrap.scrollTo({top:el.offsetTop-24,behavior:'smooth'});
+}
+
+// Track current line
+const cw=document.getElementById('code-wrap');
+const clEl=document.getElementById('cur-line');
+cw.addEventListener('scroll',()=>{
+  const lineH=cw.scrollTop/cw.scrollHeight*lineCount;
+  clEl.textContent=Math.max(1,Math.floor(lineH)+1);
+},{passive:true});
+
+// Tab clicks update active state
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+}));
+
+// Sidebar file active state on scroll
+const sections=['sec-about','sec-exp','sec-proj','sec-stack','sec-certs','sec-contact'];
+const fileMap={'sec-about':0,'sec-exp':1,'sec-proj':2,'sec-stack':3,'sec-certs':4,'sec-contact':5};
+cw.addEventListener('scroll',()=>{
+  const scrollTop=cw.scrollTop;
+  for(let i=sections.length-1;i>=0;i--){
+    const el=document.getElementById(sections[i]);
+    if(el&&el.offsetTop-50<=scrollTop){
+      document.querySelectorAll('.sbt-file').forEach(f=>f.classList.remove('active'));
+      const files=document.querySelectorAll('.sbt-file');
+      if(files[fileMap[sections[i]]])files[fileMap[sections[i]]].classList.add('active');
+      document.querySelectorAll('.mn-btn').forEach((b,idx)=>b.classList.toggle('active',idx===fileMap[sections[i]]));
+      break;
+    }
+  }
+},{passive:true});
+
+// Generate minimap lines (decorative)
+const mm=document.getElementById('mmcontent');
+mm.innerHTML=Array.from({length:80},()=>{
+  const w=20+Math.random()*70;
+  const cls=['','pu','gr','bl'][Math.floor(Math.random()*4)];
+  return `<div class="mm-line ${cls}" style="width:${w}%"></div>`;
+}).join('');
+</script>
+</body>
+</html>

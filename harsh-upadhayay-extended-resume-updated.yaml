@@ -1,0 +1,228 @@
+
+resume:
+  personal_information:
+    name: "Harsh Upadhayay"
+    contact:
+      phones:
+        - country: "IN"
+          number: "+91 7017680430"
+          link: "tel:+917017680430"
+        - country: "JP"
+          number: "+81 70-9221-5112"
+          link: "tel:+817092215112"
+      email: "harshupadhayay906@gmail.com"
+      linkedin:
+        handle: "harsh-upadhayay"
+        url: "https://www.linkedin.com/in/harsh-upadhayay-/"
+      github:
+        handle: "Harsh-Upadhayay"
+        url: "https://github.com/Harsh-Upadhayay"
+
+  professional_summary: >
+    AWS Certified Software Engineer with 2+ years of experience in taking projects from initial concept to final product. Ability to handle concurrent responsibilities, including client-facing projects and internal tool development. Ready to apply strong problem solving, algorithm and cloud development skills throughout the project lifecycle.
+
+  certifications:
+    - name: "AWS DevOps Professional"
+      score: "86%"
+      badge_url: "https://www.credly.com/badges/282db828-50e2-42df-967c-f4855bf0985b/public_url"
+      certificate_url: "https://harsh-upadhayay.github.io/portfolio_assets/aws-devops-professional.pdf"
+    - name: "AWS Solutions Architect Professional"
+      score: "86%"
+      badge_url: "https://www.credly.com/badges/20a666d9-c97c-43a5-be3d-d73376798f9f/public_url"
+      certificate_url: "https://harsh-upadhayay.github.io/portfolio_assets/aws-solutions-architect-professional.pdf"
+    - name: "AWS SysOps Administrator Associate"
+      score: "88%"
+      badge_url: "https://www.credly.com/badges/a2702ec7-96ce-4a5f-8ae4-10e52c3ad4a4/linked_in_profile"
+      certificate_url: "https://harsh-upadhayay.github.io/portfolio_assets/aws-sysops-administrator.pdf"
+    - name: "AWS Solutions Architect Associate"
+      score: "90%"
+      badge_url: "https://www.credly.com/badges/1008d490-3a2b-41bc-9289-d414faad167b/linked_in_profile"
+      certificate_url: "https://harsh-upadhayay.github.io/portfolio_assets/aws-solutions-architect-associate.pdf"
+    - name: "AWS Developer Associate"
+      score: "86%"
+      badge_url: "https://www.credly.com/badges/d5559fc1-b9ff-4a13-b08e-73a993b8acf3/public_url"
+      certificate_url: "https://harsh-upadhayay.github.io/portfolio_assets/aws-developer-associate.pdf"
+
+  experience:
+    - company: "SMS DataTech"
+      location: "Tokyo, Japan"
+      role: "Software Engineer (Promoted from Intern)"
+      start_date: "July 2023"
+      end_date: "Present"
+      key_projects:
+        - project_name: "AI Scraping Platform (Hawk AI & Missuri)"
+          context: "Architected the core system and managed the cloud deployment for a greenfield AI-powered web scraping suite."
+          team_composition: "3 FTEs, 4 Interns, 1 PM"
+          technologies:
+            - "AWS (CDK, ECS Fargate/Spot, Lambda, EventBridge, RDS)"
+            - "Python (Django, Celery)"
+            - "RabbitMQ"
+            - "Redis"
+            - "LLMs & Firecrawl API"
+          responsibilities_and_achievements:
+            - "Designed the system architecture for an intelligent, dual-engine scraper suite (Hawk AI & Missuri), orchestrating dynamic URL extraction, crawling, semantic ranking, and LLM-driven schema generation and extraction."
+            - "Engineered a highly resilient, state-driven asynchronous orchestration layer using Django REST framework and Celery, featuring parallel task batching, automated retries, and Dead Letter Queues (DLQ) for exhaustive fault tolerance."
+            - "Established foundational code design and engineering standards, guiding a team of 4 interns through the implementation phase via continuous PR reviews and mentoring."
+            - "Managed the entire cloud infrastructure as code using AWS CDK, provisioning a secure and highly available containerized microservices environment."
+            - "Profiled Celery tasks into performance tiers and implemented RabbitMQ queue routing to direct workloads to specialized, right-sized ECS Fargate task definitions, maximizing resource efficiency."
+            - "Slashed compute costs by deploying Celery workers on ECS Fargate Spot instances, enforcing strict task idempotency to guarantee reliable execution against spot interruptions."
+            - "Implemented a highly responsive, custom auto-scaling solution for Fargate tasks utilizing AWS Lambda and EventBridge."
+            - "Enforced cloud security best practices by utilizing AWS Secrets Manager for database credentials, encrypted S3 buckets for environment configurations, and strict VPC security group isolation."
+
+        - project_name: "AWS Cloud Administration & Optimization"
+          context: "Serve as one of two primary AWS Administrators for the engineering team, managing day-to-day cloud operations and driving continuous infrastructure optimization."
+          technologies:
+            - "AWS (EC2, S3, CloudFront, Aurora, Glacier, IAM)"
+            - "AWS Compute Savings Plans"
+            - "CloudWatch / Metrics Monitoring"
+            - "SQL / Python"
+          responsibilities_and_achievements:
+            - "Manage ongoing cloud operations, including provisioning new instances, configuring storage, and proactively monitoring system metrics to maintain high availability."
+            - "Lead incident response for infrastructure emergencies, rapidly debugging and resolving live outages across CloudFront, S3, and EC2 to minimize service disruption."
+            - "Reduced overall AWS compute costs by $500/month by analyzing individual client contracts, coordinating with the sales team, and strategically purchasing Compute Savings Plans."
+            - "Standardized the adoption of ARM-based AWS Graviton instances for new project architectures to maximize price-performance efficiency."
+            - "Dramatically lowered compute expenses for asynchronous background data processing by migrating Celery worker pools to fault-tolerant AWS Spot Instances."
+            - "Slashed Amazon Aurora RDS costs for the Sony project by 50% ($500/month) by identifying and remediating a bloated 1.2 TB intermediary data table."
+            - "Exported the full Aurora database snapshot to S3 Glacier Deep Archive, satisfying management's data retention requirements for future data mining while minimizing storage costs."
+            - "Engineered and executed a non-blocking, batched deletion script from an EC2 instance over a 3-day period, safely shrinking the active table to 200 GB with zero service disruption, concurrently improving query performance."
+
+        - project_name: "PoGo Internal Monitoring Tool"
+          context: "Developed an internal monitoring and alerting platform to oversee a distributed web scraping infrastructure."
+          scale: 
+            - "20+ servers"
+            - "40+ concurrent spiders"
+            - "Execution runtimes ranging from 10 minutes to 23 hours"
+          technologies:
+            - "Django"
+            - "Apache Kafka"
+            - "Relational Databases"
+          responsibilities_and_achievements:
+            - "Co-architected the initial system and built the backend and relational database using Django to ingest and normalize Scrapy logs."
+            - "Upgraded the system architecture to an asynchronous metric collection pipeline using Apache Kafka to handle scalable data throughput."
+            - "Implemented automated anomaly alerts evaluating data drops against 7-day historical averages, reducing Mean Time to Detection (MTTD) from 30 minutes to 1 minute."
+            - "Eliminated client-reported escaped defects (reduced to 0) by automating sample data verification processes."
+            - "Decreased Mean Time to Repair (MTTR) by 30 minutes per incident by centralizing collection statistics, success rates, and sample data logs."
+            - "Automated code update verification post-ETL, dropping verification time from 30 minutes to 1 minute per project through consolidated report generation."
+            - "Built an internal server resource dashboard (CPU, RAM, Disk) with 14-day historical data, reducing monitoring and debugging time from 3 hours to 5 minutes by removing external AWS dependencies."
+            - "Centralized spider specifications within the dashboard, cutting cross-team communication delays from 2 hours to 10 minutes."
+
+        - project_name: "Enterprise Data Extraction Pipeline (Sony Group)"
+          context: "Assumed full ownership of a legacy (2019) web scraping infrastructure delivering continuous analytics data to a major enterprise client."
+          technologies:
+            - "Python"
+            - "Scrapy"
+            - "Django"
+            - "Celery"
+            - "Cloud Storage (S3)"
+          responsibilities_and_achievements:
+            - "Managed day-to-day operations and maintenance of a large-scale data collection system targeting 14 media and e-commerce platforms."
+            - "Ensured reliable daily and weekly delivery of normalized datasets to the client's designated cloud storage."
+            - "Initiated an incremental refactoring strategy for the legacy codebase, completely rewriting 6 major web source scrapers from scratch during required maintenance."
+            - "Eliminated redundant Django, Celery, and database intermediary steps by migrating data normalization and delivery logic directly into Scrapy pipelines and signals."
+            - "Achieved a 95% reduction in execution runtime for the refactored modules through architectural simplification."
+            - "Onboarded and trained a new full-time engineer to gradually take over project operations, providing ongoing technical support for complex legacy backend issues."
+
+        - project_name: "Client Data Extraction Project (Amazon)"
+          context: "Maintained and expanded a production web scraping pipeline for a major enterprise client during my second internship."
+          technologies:
+            - "Python"
+            - "Scrapy"
+          responsibilities_and_achievements:
+            - "Maintained daily operations alongside a full-time engineer by debugging broken scrapers and resolving client-reported data issues."
+            - "Independently managed a major mid-project specification change, successfully migrating existing data pipelines to new source websites."
+            - "Developed and integrated new Scrapy spiders from scratch to accommodate an additional required data source."
+            - "Identified and automated previously manual data collection workflows, streamlining the overall extraction process and reducing manual overhead."
+
+    - company: "OutScale"
+      location: "Remote"
+      role: "DSA Mentor"
+      start_date: "May 2023"
+      end_date: "Aug 2023"
+      responsibilities:
+        - "Mentored students on Data Structures and Algorithms through detailed code reviews and feedback."
+
+  technical_skills:
+    languages:
+      - "Python"
+      - "C"
+      - "C++"
+      - "SQL"
+    frameworks_and_libraries:
+      - "Django"
+      - "FastAPI"
+      - "Scrapy"
+      - "Pandas"
+      - "Numpy"
+      - "REST APIs"
+      - "MySQL"
+      - "PostgreSQL"
+    cloud_and_devops:
+      - "AWS (ECS, EC2, CloudFormation, CloudFront, ELB/ASG, Lambda, EventBridge, RDS)"
+      - "Docker"
+      - "Kafka"
+      - "RabbitMQ"
+      - "Redis"
+      - "Git"
+      - "CI/CD"
+      - "Linux"
+
+  projects:
+    - name: "Genkimart"
+      repository_url: "https://github.com/harsh324/genkimart"
+      technologies:
+        - "Python"
+        - "Django"
+        - "Django REST Framework"
+        - "Stripe API"
+      highlights:
+        - "Developed the complete backend for a CRUD e-commerce web app used by a local retailer, integrating the Stripe API for secure payment processing."
+    
+    - name: "Homelab Server"
+      repository_url: "https://github.com/Harsh-Upadhayay/homelab"
+      technologies:
+        - "Docker"
+        - "Docker Compose"
+        - "Traefik"
+        - "Authelia"
+        - "Cloudflare Tunnels"
+      highlights:
+        - "Design, build and manage a personal server to self-host over a dozen services, including Nextcloud and Jenkins, using Docker Compose."
+        - "Implemented a secure access model using Traefik as a reverse proxy and Authelia for single sign-on (SSO) authentication across all services."
+    
+    - name: "CipherVault"
+      repository_url: "https://github.com/Harsh-Upadhayay/CipherVault"
+      technologies:
+        - "C++"
+        - "Cryptography"
+        - "OOPs"
+      highlights:
+        - "Implemented a suite of classical ciphers, demonstrating strong object-oriented programming and fundamental security concepts."
+
+  education:
+    - institution: "Indian Institute of Information Technology, Nagpur"
+      location: "Nagpur, India"
+      degree: "Bachelor of Technology in Computer Science and Engineering"
+      score: "8.5 CGPA"
+      graduation_date: "May 2024"
+    
+    - institution: "Kendriya Vidyalaya O.N.G.C."
+      location: "Dehradun, India"
+      degree: "Senior Secondary & High School"
+      score: "Senior Secondary (94.4%), High School (10 CGPA)"
+      graduation_date: "March 2019"
+
+  achievements_and_profiles:
+    - description: "Solved 1000+ DSA problems on platforms like LeetCode & Codeforces."
+      links:
+        - "https://leetcode.com/harshupadhayay906/"
+        - "https://codeforces.com/profile/_harsh_upadhayay_"
+    - description: "Achieved Specialist rating (1415 max) on Codeforces."
+      links:
+        - "https://codeforces.com/profile/_harsh_upadhayay_"
+    - description: "Published 5+ technical articles on GeeksforGeeks."
+      links:
+        - "https://auth.geeksforgeeks.org/user/harshupadhayay906/articles"
+    - description: "Coursera Certs: Supervised Machine Learning & Advanced Learning Algorithms."
+      links:
+        - "https://www.coursera.org/account/accomplishments/certificate/RPDW7AQ3SPC5"
+        - "https://www.coursera.org/account/accomplishments/certificate/J4CBTPKRCW2U"
