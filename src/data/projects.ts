@@ -18,6 +18,7 @@ export const projects: Project[] = [
   {
     name: "Homelab Server",
     repo: "https://github.com/Harsh-Upadhayay/homelab",
+    live: "https://neovara.uk",
     status: "Active",
     tech: ["Docker", "Docker Compose", "Traefik v3", "Authelia", "Cloudflare Tunnels", "Prometheus", "Grafana", "Ollama", "Watchtower", "Linux"],
     summary: "A self-hosted personal cloud running 15+ services (Nextcloud, Immich, Jellyfin, Ollama, Jenkins) with zero open inbound ports — all traffic egresses through Cloudflare Tunnels with TLS at the edge. Designed, built, and operated end-to-end like a mini production environment, with SSO and full observability.",
@@ -30,21 +31,9 @@ export const projects: Project[] = [
     ]
   },
   {
-    name: "AI Job-Hunt Scraper",
-    repo: "https://github.com/deep_astaad/job-hunt",
-    status: "Active",
-    tech: ["Python", "Scrapy", "Django", "Celery", "LLMs", "AWS", "Docker", "Playwright"],
-    summary: "An AI job aggregator that scrapes multiple tech job boards — including Japan-specific portals — and uses an LLM extraction layer to normalise wildly different posting schemas into structured, fit-scored results, surfaced through a React frontend. Mirrors the production scraping stack from my day job.",
-    highlights: [
-      "LLM-driven extraction layer normalises heterogeneous job-posting schemas into one structured model.",
-      "Celery async task queue runs parallel scraping with retry and Dead Letter Queue logic.",
-      "Actor-based config system holds per-site scraping rules and rate limiting.",
-      "Playwright integration handles JS-rendered pages that defeat plain HTTP scraping."
-    ]
-  },
-  {
     name: "Kiroku (Japanese Study App)",
     repo: "https://github.com/Harsh-Upadhayay/kiroku",
+    live: "https://kiroku.neovara.uk",
     status: "Active",
     tech: ["Go 1.22", "React 19", "TypeScript", "SQLite", "FSRS", "IndexedDB", "PWA", "Docker", "Traefik"],
     summary: "A live, offline-first Japanese study app (kiroku.neovara.uk) where the browser is the study runtime and a Go backend handles sync, auth, and import. Kana drills, a guided JLPT N5 course, vocab-from-photos, an offline dictionary, and Anki deck review with FSRS — all working with no signal, self-hosted with zero third-party tracking.",
@@ -54,6 +43,20 @@ export const projects: Project[] = [
       "Anki .apkg import pipeline parses ZIP archives of SQLite databases and zstd-compressed media.",
       "Lean Go 1.22 backend on standard net/http with SQLite via modernc.org/sqlite (no cgo, no ORM) and bcrypt auth.",
       "Installable PWA with service-worker app-shell caching; self-hosted behind Traefik with Watchtower auto-updates."
+    ]
+  },
+  {
+    name: "AI Job-Hunt Scraper",
+    repo: "https://github.com/deep-astaad/job-hunt",
+    live: "https://jobhunt.neovara.uk",
+    status: "Active",
+    tech: ["Python", "Scrapy", "Django", "Celery", "LLMs", "AWS", "Docker", "Playwright"],
+    summary: "An AI job aggregator that scrapes multiple tech job boards — including Japan-specific portals — and uses an LLM extraction layer to normalise wildly different posting schemas into structured, fit-scored results, surfaced through a React frontend. Mirrors the production scraping stack from my day job.",
+    highlights: [
+      "LLM-driven extraction layer normalises heterogeneous job-posting schemas into one structured model.",
+      "Celery async task queue runs parallel scraping with retry and Dead Letter Queue logic.",
+      "Actor-based config system holds per-site scraping rules and rate limiting.",
+      "Playwright integration handles JS-rendered pages that defeat plain HTTP scraping."
     ]
   },
   {

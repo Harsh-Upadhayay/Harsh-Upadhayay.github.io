@@ -54,6 +54,7 @@ export interface Experience {
 export interface Project {
   name: string;
   repo: string;
+  live?: string;
   status: 'Active' | 'In Progress' | 'Completed';
   tech: string[];
   summary: string;

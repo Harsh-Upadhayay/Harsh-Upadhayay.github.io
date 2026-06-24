@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Github, Code, Server, Layers } from 'lucide-react';
+import { Search, Github, Code, Server, Layers, ExternalLink } from 'lucide-react';
 import { projects } from '../data';
 import { useDesign } from './DesignContext';
 
@@ -176,12 +176,22 @@ export default function Projects() {
                         ))}
                       </div>
 
-                      <div>
-                        <a 
+                      <div className={`flex gap-2 ${project.live ? 'flex-row' : ''}`}>
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 text-center block font-mono text-[10px] uppercase tracking-widest text-white bg-[#1a1a1a] hover:bg-[#d44d2e] border border-[#1a1a1a] hover:border-[#d44d2e] py-3 transition-all font-bold"
+                          >
+                            Live Demo
+                          </a>
+                        )}
+                        <a
                           href={project.repo}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center block font-mono text-[10px] uppercase tracking-widest text-[#1a1a1a] hover:text-[#d44d2e] border border-[#1a1a1a]/15 hover:border-[#d44d2e]/30 py-3 bg-white hover:bg-zinc-50 transition-all font-bold"
+                          className={`text-center block font-mono text-[10px] uppercase tracking-widest text-[#1a1a1a] hover:text-[#d44d2e] border border-[#1a1a1a]/15 hover:border-[#d44d2e]/30 py-3 bg-white hover:bg-zinc-50 transition-all font-bold ${project.live ? 'flex-1' : 'w-full'}`}
                         >
                           Source Code
                         </a>
@@ -326,6 +336,21 @@ export default function Projects() {
                           {project.status}
                         </span>
                         
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`p-1.5 rounded-lg border transition-all ${
+                              designMode === 'swiss'
+                                ? 'bg-zinc-50 border-zinc-250 text-zinc-700 hover:border-zinc-400 hover:bg-zinc-100 hover:text-zinc-950'
+                                : 'bg-black border-current/10 hover:border-current/20 text-current hover:bg-black/40'
+                            }`}
+                            title="Live Demo"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
                         <a
                           href={project.repo}
                           target="_blank"
