@@ -11,6 +11,9 @@ export const skills: Skills = {
     "FastAPI",
     "Scrapy",
     "Celery",
+    "Pydantic",
+    "Playwright",
+    "boto3",
     "Pandas",
     "NumPy"
   ],
@@ -19,7 +22,8 @@ export const skills: Skills = {
     "MySQL",
     "Redis",
     "Amazon Aurora",
-    "SQLite"
+    "SQLite",
+    "Qdrant"
   ],
   message_queues: [
     "Apache Kafka",
@@ -31,6 +35,8 @@ export const skills: Skills = {
       "EC2",
       "Lambda",
       "EventBridge",
+      "SQS",
+      "SNS",
       "RDS / Aurora",
       "S3 / Glacier",
       "CloudFront",
@@ -52,6 +58,9 @@ export const skills: Skills = {
       "Jenkins"
     ],
     other: [
+      "Prometheus",
+      "Grafana",
+      "Ollama",
       "Traefik",
       "Cloudflare Tunnels",
       "Linux Administration",
