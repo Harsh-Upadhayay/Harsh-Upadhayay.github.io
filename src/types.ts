@@ -21,6 +21,7 @@ export interface PersonalInfo {
   name: string;
   tagline: string;
   summary: string;
+  resumeUrl: string;
   contact: ContactInfo;
   social: Socials;
 }

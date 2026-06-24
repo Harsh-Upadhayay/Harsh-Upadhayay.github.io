@@ -125,7 +125,7 @@ export default function Skills() {
             designMode === 'swiss' ? 'bg-rose-600' : 'bg-cyan-500'
           }`} />
           <p className={`mt-4 ${styles.textMuted}`}>
-            Structured into clear, functional domains demonstrating a robust backend engineering background integrated with production-grade cloud infrastructure and observability.
+            The languages, frameworks, and AWS services I use in production — grouped by what they actually do.
           </p>
         </div>
 

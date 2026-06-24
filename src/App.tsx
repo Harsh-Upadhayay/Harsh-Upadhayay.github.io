@@ -144,7 +144,7 @@ function AppContent() {
                 {personalInfo.name}
               </span>
               <p className="text-xs opacity-60 leading-relaxed max-w-sm">
-                AWS DevOps & Solutions Architect Professional with a passion for designing highly available distributed databases and resilient async scraper architectures.
+                Backend & cloud engineer in Tokyo. AWS Solutions Architect & DevOps Professional, building distributed pipelines and cost-efficient infrastructure on AWS.
               </p>
             </div>
 

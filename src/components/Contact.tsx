@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle2, ShieldCheck, Terminal, Trash2, Database } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle2, ShieldCheck, Terminal, Trash2, Database, FileText } from 'lucide-react';
 import { personalInfo } from '../data';
 import { ContactMessage } from '../types';
 import { useDesign } from './DesignContext';
@@ -43,30 +43,36 @@ export default function Contact() {
 
     setIsSubmitting(true);
 
-    // Simulate backend cloud service response delay
-    setTimeout(() => {
-      const newMessage: ContactMessage = {
-        id: Math.random().toString(36).substring(2, 9),
-        name,
-        email,
-        subject,
-        message,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString()
-      };
+    // Open the visitor's email client with the message pre-filled so it
+    // genuinely reaches the inbox (no backend required).
+    const mailBody = `From: ${name} <${email}>\n\n${message}`;
+    const mailtoUrl = `mailto:${personalInfo.contact.email}` +
+      `?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(mailBody)}`;
+    window.location.href = mailtoUrl;
 
-      const updatedMessages = [newMessage, ...demoMessages];
-      setDemoMessages(updatedMessages);
-      localStorage.setItem('harsh_portfolio_messages', JSON.stringify(updatedMessages));
+    // Keep a local-only copy so the visitor can see what they drafted.
+    const newMessage: ContactMessage = {
+      id: Math.random().toString(36).substring(2, 9),
+      name,
+      email,
+      subject,
+      message,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ', ' + new Date().toLocaleDateString()
+    };
 
-      setIsSubmitting(false);
-      setIsSuccess(true);
-      
-      // Clear inputs
-      setName('');
-      setEmail('');
-      setSubject('');
-      setMessage('');
-    }, 1200);
+    const updatedMessages = [newMessage, ...demoMessages];
+    setDemoMessages(updatedMessages);
+    localStorage.setItem('harsh_portfolio_messages', JSON.stringify(updatedMessages));
+
+    setIsSubmitting(false);
+    setIsSuccess(true);
+
+    // Clear inputs
+    setName('');
+    setEmail('');
+    setSubject('');
+    setMessage('');
   };
 
   const handleDeleteMessage = (id: string) => {
@@ -162,10 +168,18 @@ export default function Contact() {
               </div>
 
               <div className="border border-[#1a1a1a]/10 p-6 bg-white mt-12 lg:mt-0">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-[#d44d2e] font-bold block mb-2">// Direct routing</span>
+                <span className="font-mono text-[9px] uppercase tracking-wider text-[#d44d2e] font-bold block mb-2">// Open to work</span>
                 <p className="font-sans text-xs text-[#1a1a1a]/60 leading-relaxed">
-                  Recruiter payloads are processed locally with cryptographic validations. Harsh is open to full-time technical leadership and cloud infrastructure roles in Tokyo or remote.
+                  Open to full-time backend, cloud, and platform engineering roles in Tokyo or remote. The form opens your own email client — or reach me directly at the address above. I reply within a day.
                 </p>
+                <a
+                  href={personalInfo.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-[10px] uppercase tracking-wider text-[#d44d2e] hover:text-[#1a1a1a] transition-colors border border-[#1a1a1a]/15 px-3 py-2 bg-white inline-flex mt-4 font-bold"
+                >
+                  Download Résumé (PDF)
+                </a>
               </div>
             </div>
 
@@ -181,9 +195,9 @@ export default function Contact() {
 
                   {isSuccess && (
                     <div className="p-5 bg-emerald-50 border border-emerald-200 text-emerald-850 animate-fade-in">
-                      <span className="block font-editorial font-bold text-base">Transmission Succeeded</span>
+                      <span className="block font-editorial font-bold text-base">Your email client is opening</span>
                       <span className="block text-xs mt-1.5 font-sans leading-relaxed opacity-90">
-                        The payload is securely buffered in the active local console database. Review its serialized schema below.
+                        If nothing pops up, email me directly at {personalInfo.contact.email}. A copy of your draft is saved below in your browser only.
                       </span>
                     </div>
                   )}
@@ -266,9 +280,9 @@ export default function Contact() {
             <div className="px-6 py-4 border-b border-[#1a1a1a]/10 flex items-center justify-between bg-[#F8F7F4]">
               <div className="flex items-center gap-2 font-mono text-xs text-[#1a1a1a]">
                 <span className="w-2 h-2 rounded-full bg-[#d44d2e]" />
-                <span className="font-bold uppercase tracking-wider">Inbound Queue Viewer</span>
+                <span className="font-bold uppercase tracking-wider">Your Draft (local preview)</span>
               </div>
-              <span className="font-mono text-[10px] text-[#1a1a1a]/50">DYNAMIC RECRUITER TRANSMISSIONS</span>
+              <span className="font-mono text-[10px] text-[#1a1a1a]/50">SAVED IN YOUR BROWSER ONLY</span>
             </div>
 
             <div className="p-6 font-mono text-xs text-[#1a1a1a]">
@@ -347,7 +361,7 @@ export default function Contact() {
             designMode === 'swiss' ? 'bg-rose-600' : 'bg-cyan-500'
           }`} />
           <p className={`mt-4 ${styles.textMuted}`}>
-            Have an open role, a collaborative project, or a technical inquiry? Submit the form below, or reach out directly via email or social links.
+            Hiring for a backend, cloud, or platform role? Grab my résumé and email me — the form opens your own mail client, or reach me directly below. I reply within a day.
           </p>
         </div>
 
@@ -358,9 +372,9 @@ export default function Contact() {
             <div className={`p-6 sm:p-8 space-y-6 ${styles.card}`}>
               <h3 className={`text-lg font-bold tracking-tight ${
                 designMode === 'swiss' ? 'text-zinc-900' : 'text-slate-100'
-              }`}>Direct Connections</h3>
+              }`}>Hiring for a backend or cloud role?</h3>
               <p className={`text-xs leading-relaxed ${styles.textMuted}`}>
-                Open to global opportunities, developer networking, or collaborative engineering. Based full-time in Tokyo, Japan.
+                I'm open to full-time backend, cloud, and platform engineering roles — based in Tokyo, open to remote. Grab my résumé and email me; I reply within a day.
               </p>
 
               <div className={`space-y-4 pt-4 border-t font-mono text-xs ${styles.borderMuted}`}>
@@ -423,11 +437,20 @@ export default function Contact() {
               <ShieldCheck className={`w-6 h-6 flex-shrink-0 mt-0.5 ${
                 designMode === 'swiss' ? 'text-rose-600' : 'text-amber-400'
               }`} />
-              <div className="space-y-1.5">
-                <strong className="block font-sans font-semibold">Credly Security Assured</strong>
+              <div className="space-y-2">
+                <strong className="block font-sans font-semibold">Open to backend, cloud & platform roles</strong>
                 <p className="leading-relaxed font-sans">
-                  Recruiter messages are routed client-side safely. Harsh is open to technical roles including DevOps, Site Reliability, Backend, or Cloud Engineering.
+                  The form opens your own email client — or email me directly. I reply within a day.
                 </p>
+                <a
+                  href={personalInfo.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-sans font-semibold underline underline-offset-2 hover:opacity-80 transition-opacity"
+                >
+                  <FileText className="w-4 h-4" />
+                  Download Résumé (PDF)
+                </a>
               </div>
             </div>
           </div>
@@ -451,9 +474,9 @@ export default function Contact() {
                   }`}>
                     <CheckCircle2 className={`w-5 h-5 flex-shrink-0 mt-0.5 ${designMode === 'swiss' ? 'text-emerald-700' : ''}`} />
                     <div>
-                      <span className="block font-sans font-bold text-sm">Message Transmitted!</span>
+                      <span className="block font-sans font-bold text-sm">Your email client is opening</span>
                       <span className="block text-xs mt-0.5 font-sans leading-normal opacity-80">
-                        Your inquiry has been successfully dispatched to the local message queue. You can review the serialized metric ingestion in the console below.
+                        If nothing pops up, email me directly at {personalInfo.contact.email}. A copy of your draft is saved below in your browser only.
                       </span>
                     </div>
                   </div>
@@ -553,14 +576,14 @@ export default function Contact() {
                 <Terminal className="w-4.5 h-4.5" />
               </span>
               <div>
-                <span className="block font-mono text-xs font-bold">Active Inbound Messages Store Console</span>
-                <span className="block text-[10px] opacity-60 font-sans">Submit a message above to see it dynamically ingest locally!</span>
+                <span className="block font-mono text-xs font-bold">Your Draft — Local Preview</span>
+                <span className="block text-[10px] opacity-60 font-sans">Saved in your browser only; nothing is sent to a server.</span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-2 font-mono">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              <span className="text-[10px] text-emerald-500 uppercase font-bold tracking-wider">Storage Connected</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] text-emerald-500 uppercase font-bold tracking-wider">Browser Storage</span>
             </div>
           </div>
 

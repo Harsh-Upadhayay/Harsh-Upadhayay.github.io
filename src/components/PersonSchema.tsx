@@ -8,7 +8,7 @@ export default function PersonSchema() {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": personalInfo.name,
-      "jobTitle": "AWS Certified Solutions Architect & DevOps Professional",
+      "jobTitle": "Backend & Cloud Engineer",
       "url": "https://harshupadhayay.neovara.uk",
       "email": personalInfo.contact.email,
       "address": {
@@ -40,7 +40,7 @@ export default function PersonSchema() {
         "Infrastructure as Code (IaC)",
         "AWS CDK",
         "Docker",
-        "Kubernetes"
+        "Cloud Cost Optimization (FinOps)"
       ]
     };
 

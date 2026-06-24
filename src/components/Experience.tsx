@@ -79,7 +79,7 @@ export default function Experience() {
     const smsProjects = smsDataTechExp.projects || [];
     const tabList = [
       ...smsProjects.map(p => p.name),
-      "Cloud administration" // maps to OutScale
+      "DSA Mentorship" // maps to OutScale
     ];
 
     const isActiveSmsProject = activeTab < smsProjects.length;
@@ -164,15 +164,15 @@ export default function Experience() {
                 // Render OutScale experience details
                 <div className="space-y-6 animate-fade-in">
                   <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#d44d2e] font-bold block">
-                    Cloud Consultation · OutScale
+                    Mentorship · OutScale · {outScaleExp.start} – {outScaleExp.end}
                   </span>
-                  
+
                   <h3 className="font-editorial text-3xl sm:text-4xl font-bold text-[#1a1a1a] leading-tight my-2">
-                    AWS Cloud Consultant & Administrator
+                    {outScaleExp.role}
                   </h3>
-                  
+
                   <p className="font-editorial text-lg sm:text-xl text-[#1a1a1a]/80 leading-relaxed font-light italic max-w-3xl">
-                    Engineered high-concurrency Node.js and Python microservices. Validated architecture compliance, optimized compute footprints via FinOps practices, and guided local enterprises in secure AWS migration strategies.
+                    Remote part-time mentoring alongside my final year of study — reviewing student code on Data Structures &amp; Algorithms and giving detailed written feedback.
                   </p>
 
                   <div className="space-y-4 pt-4 border-t border-[#1a1a1a]/5">
@@ -188,7 +188,7 @@ export default function Experience() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-6 border-t border-[#1a1a1a]/10">
-                    {['React', 'TypeScript', 'Python', 'Node.js', 'AWS', 'Docker'].map((tag, tIdx) => (
+                    {['Data Structures', 'Algorithms', 'Code Review', 'Mentoring'].map((tag, tIdx) => (
                       <span key={tIdx} className="font-mono text-[9px] uppercase tracking-wider text-[#d44d2e] bg-[#d44d2e]/5 border border-[#d44d2e]/10 px-2.5 py-1 font-semibold">
                         {tag}
                       </span>

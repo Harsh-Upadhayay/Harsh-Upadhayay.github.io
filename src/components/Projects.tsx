@@ -230,7 +230,7 @@ export default function Projects() {
             designMode === 'swiss' ? 'bg-rose-600' : 'bg-amber-500'
           }`} />
           <p className={`mt-4 ${styles.textMuted}`}>
-            A selective exhibition of software engineering portfolios encompassing rate limiters, AI aggregates, homelab servers, and production-grade full-stack backends.
+            Side projects where I go deep on the backend and infrastructure I care about — a Go rate limiter on AWS, a self-hosted homelab, an LLM-powered scraper, and a live offline-first app.
           </p>
         </div>
 

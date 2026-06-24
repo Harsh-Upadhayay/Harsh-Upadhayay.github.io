@@ -62,13 +62,13 @@ export default function Hero() {
             <div className="lg:col-span-8 space-y-8">
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#d44d2e] font-bold block mb-4">
-                  Engineered in Tokyo
+                  Harsh Upadhayay · Engineered in Tokyo
                 </span>
                 <h1 className="font-editorial text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight text-[#1a1a1a]">
-                  Architecting the <span className="italic font-light">Cloud</span>.
+                  Backends that scale. <span className="italic font-light">Bills that don't.</span>
                 </h1>
                 <p className="font-editorial text-lg sm:text-2xl text-[#1a1a1a]/80 leading-relaxed font-light italic mt-6 max-w-3xl">
-                  AWS Certified Software Engineer with 2+ years of professional experience taking projects from initial concept to production. Specialising in cloud architecture, distributed backend systems, and AI-powered data pipelines.
+                  Backend &amp; cloud engineer with 2+ years building distributed pipelines and production AWS infrastructure for enterprise clients including Sony. Five AWS certifications, two at Professional tier.
                 </p>
               </div>
 
@@ -83,8 +83,8 @@ export default function Hero() {
                   <div className="font-editorial text-4xl sm:text-5xl font-bold text-[#1a1a1a]">02+</div>
                 </div>
                 <div>
-                  <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[#1a1a1a]/60 block mb-2 font-bold">DSA Solved</span>
-                  <div className="font-editorial text-4xl sm:text-5xl font-bold text-[#1a1a1a]">1.2k</div>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-[#1a1a1a]/60 block mb-2 font-bold">Cloud Cut /mo</span>
+                  <div className="font-editorial text-4xl sm:text-5xl font-bold text-[#1a1a1a]">$1K</div>
                 </div>
               </div>
             </div>
@@ -95,18 +95,20 @@ export default function Hero() {
                 <div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-[#1a1a1a]/60 block mb-3 font-bold">Current Status</span>
                   <p className="text-sm leading-relaxed text-[#1a1a1a]/80 font-sans font-light">
-                    Available for Technical Roles. Holds both Professional-tier AWS exams. Mentored over 100+ students in algorithms. Specialized in distributed scraping engines and FinOps.
+                    Available for backend &amp; cloud engineering roles. Holds both Professional-tier AWS exams. Specialised in distributed scraping engines, async pipelines, and cloud FinOps.
                   </p>
                 </div>
 
                 <div className="pt-4 space-y-4">
-                  <button
-                    id="cta-contact-swiss"
-                    onClick={() => scrollToSection('contact')}
+                  <a
+                    id="cta-resume-swiss"
+                    href={personalInfo.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-full bg-[#1a1a1a] hover:bg-[#d44d2e] text-white font-mono text-xs uppercase tracking-widest py-4 transition-all duration-300 font-bold rounded-none cursor-pointer flex items-center justify-center gap-2"
                   >
-                    Get in Touch
-                  </button>
+                    Download Résumé
+                  </a>
                   
                   <div className="flex flex-wrap gap-2 pt-2">
                     <a 
@@ -195,12 +197,15 @@ export default function Hero() {
           <div className="lg:col-span-7 space-y-6">
             <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-semibold tracking-wide ${getBadgeStyle()}`}>
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Available for Technical Roles</span>
+              <span>Available for backend &amp; cloud roles</span>
             </div>
 
-            <div className="space-y-2">
-              <h1 className={`text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none ${styles.heading}`} id="hero-title">
-                Hi, I'm <span className={getGradientText()}>{personalInfo.name}</span>
+            <div className="space-y-3">
+              <span className={`block text-sm font-mono font-semibold tracking-wide ${styles.textMuted}`}>
+                {personalInfo.name}
+              </span>
+              <h1 className={`text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1] ${styles.heading}`} id="hero-title">
+                Distributed backends on AWS — <span className={getGradientText()}>and the bill cut to match.</span>
               </h1>
               <p className={`text-lg sm:text-xl font-sans font-medium opacity-90 ${styles.text}`}>
                 {personalInfo.tagline}
@@ -215,36 +220,38 @@ export default function Hero() {
             <div className={`grid grid-cols-3 gap-4 py-3 border-t border-b ${styles.borderMuted}`}>
               <div>
                 <div className={`text-2xl font-bold font-mono ${getMetricAccent(0)}`}>5</div>
-                <div className={`text-xs ${styles.textTertiary}`}>AWS Certifications</div>
+                <div className={`text-xs ${styles.textTertiary}`}>AWS Certs · 2 Pro</div>
               </div>
               <div>
-                <div className={`text-2xl font-bold font-mono ${getMetricAccent(1)}`}>2+ Yrs</div>
-                <div className={`text-xs ${styles.textTertiary}`}>Professional Exp</div>
+                <div className={`text-2xl font-bold font-mono ${getMetricAccent(1)}`}>~$1K/mo</div>
+                <div className={`text-xs ${styles.textTertiary}`}>Cloud Cost Cut</div>
               </div>
               <div>
-                <div className={`text-2xl font-bold font-mono ${getMetricAccent(2)}`}>1000+</div>
-                <div className={`text-xs ${styles.textTertiary}`}>DSA Solved</div>
+                <div className={`text-2xl font-bold font-mono ${getMetricAccent(2)}`}>2+ Yrs</div>
+                <div className={`text-xs ${styles.textTertiary}`}>Production Exp</div>
               </div>
             </div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-              <button
-                id="cta-contact"
-                onClick={() => scrollToSection('contact')}
+              <a
+                id="cta-resume"
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={styles.btnPrimary}
               >
-                <span>Get in Touch</span>
+                <span>Download Résumé</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
-              
-              <button
-                id="cta-certifications"
-                onClick={() => scrollToSection('certifications')}
+              </a>
+
+              <a
+                id="cta-email"
+                href={`mailto:${personalInfo.contact.email}?subject=Backend%2FCloud%20role`}
                 className={styles.btnSecondary}
               >
-                View AWS Credentials
-              </button>
+                Email Me
+              </a>
             </div>
 
             {/* Socials & Contact Meta */}
