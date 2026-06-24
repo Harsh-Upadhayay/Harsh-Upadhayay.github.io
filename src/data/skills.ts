@@ -3,7 +3,7 @@ import type { Skills } from '../types';
 export const skills: Skills = {
   languages: {
     primary: ["Python", "Go", "SQL"],
-    proficient: ["C", "C++", "JavaScript", "TypeScript", "HTML5/CSS3"]
+    proficient: ["C", "C++"]
   },
   frameworks_and_libraries: [
     "Django",
@@ -12,10 +12,7 @@ export const skills: Skills = {
     "Scrapy",
     "Celery",
     "Pandas",
-    "NumPy",
-    "React",
-    "Express",
-    "Next.js"
+    "NumPy"
   ],
   databases: [
     "PostgreSQL",
